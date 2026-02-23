@@ -1,0 +1,3 @@
+# Netlify redirects file
+# Redirect tất cả routes về index.html cho SPA
+/*    /index.html   200
