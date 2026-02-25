@@ -176,7 +176,7 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
         // Mở link Google Sheets sau 2 giây
         setTimeout(() => {
           window.open(googleSheetsUrl, '_blank');
-        }, 2000);
+        }, 5000);
       } else {
         // Nếu không có URL, chỉ log ra console
         console.log('Dữ liệu đặt lịch:', appointmentData);
@@ -202,7 +202,7 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     
     setTimeout(() => {
       setShowNotification(false);
-    }, 5000);
+    }, 60000);
   };
 
   // Hàm hiển thị notification lỗi
