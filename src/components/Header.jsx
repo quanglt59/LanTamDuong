@@ -37,7 +37,7 @@ export default function Header() {
             <a href="#products-grid" className="text-wood-700 hover:text-nature-green-600 focus:text-nature-green-600 focus:outline-none focus:ring-2 focus:ring-nature-green-500 focus:ring-offset-2 rounded transition-colors duration-200 font-medium cursor-pointer text-sm lg:text-base">
               Dịch Vụ
             </a>
-            <a href="#trust" className="text-wood-700 hover:text-nature-green-600 focus:text-nature-green-600 focus:outline-none focus:ring-2 focus:ring-nature-green-500 focus:ring-offset-2 rounded transition-colors duration-200 font-medium cursor-pointer text-sm lg:text-base">
+            <a href="#testimonials" className="text-wood-700 hover:text-nature-green-600 focus:text-nature-green-600 focus:outline-none focus:ring-2 focus:ring-nature-green-500 focus:ring-offset-2 rounded transition-colors duration-200 font-medium cursor-pointer text-sm lg:text-base">
               Chất lượng
             </a>
           </nav>

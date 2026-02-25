@@ -106,7 +106,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-beige-50 via-white to-nature-green-50">
+    <section id="testimonials" className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-beige-50 via-white to-nature-green-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-12 md:mb-16">

@@ -43,11 +43,11 @@ export default function Footer() {
             <ul className="space-y-3 text-sm sm:text-base text-beige-200">
               <li className="flex items-start gap-2">
                 <span className="font-semibold text-beige-50 whitespace-nowrap">Hotline:</span>
-                <a href="tel:0855155696" className="hover:text-beige-50 transition-colors whitespace-nowrap">0356&nbsp;859&nbsp;566</a>
+                <a href="tel:0356859566" className="hover:text-beige-50 transition-colors whitespace-nowrap">0356&nbsp;859&nbsp;566</a>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-semibold text-beige-50 whitespace-nowrap">Email:</span>
-                <a href="mailto:aocuoilailan@gmail.com" className="break-all hover:text-beige-50 transition-colors text-xs sm:text-sm">lantamduong2025@gmail.com</a>
+                <a href="mailto:lantamduong2025@gmail.com" className="break-all hover:text-beige-50 transition-colors text-xs sm:text-sm">lantamduong2025@gmail.com</a>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-semibold text-beige-50 whitespace-nowrap">Website:</span>
@@ -55,7 +55,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-semibold text-beige-50 whitespace-nowrap">Địa&nbsp;chỉ:</span>
-                <a href="https://www.google.com/maps?q=N%C3%B4ng+S%E1%BA%A3n+S%E1%BA%A1ch+B%E1%BA%AFc+K%E1%BA%A1n,+Li%E1%BB%81n+k%E1%BB%81+140,+D%E1%BB%8Bch+v%E1%BB%A5+04+-+%C4%90%C3%ACa+L%C3%A3o,+Ki%E1%BA%BFn+H%C6%B0ng,+H%C3%A0+N%E1%BB%99i,+12100&ftid=0x3135adb15595b195:0x16e7a593dd21a66b&entry=gps" target="_blank" rel="noopener noreferrer" className="hover:text-beige-50 transition-colors cursor-pointer">629 Đường Quang Trung&nbsp;,Phường Thịnh Đán&nbsp;,Tỉnh Thái Nguyên</a>
+                <a href="https://www.google.com/maps/place/Lan+T%C3%A2m+%C4%90%C6%B0%E1%BB%9Dng/@21.5644815,105.806654,17z/data=!3m1!4b1!4m6!3m5!1s0x313521003c8a458f:0x7276299282dbfb15!8m2!3d21.5644815!4d105.8092289!16s%2Fg%2F11ytj0jyxz?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" className="hover:text-beige-50 transition-colors cursor-pointer">629 Đường Quang Trung&nbsp;,Phường Quyết Thắng&nbsp;,Tỉnh Thái Nguyên</a>
               </li>
             </ul>
 
