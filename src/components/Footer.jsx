@@ -24,16 +24,15 @@ export default function Footer() {
             />
             
             <p className="text-sm sm:text-base text-beige-200 mb-4 leading-relaxed italic">
-              Phòng khám số 1 về chăm sóc sức khỏe, &nbsp;Đông y kết hợp máy công nghệ cao.
+              Cơ sở số 1 về chăm sóc sức khỏe, Đông y kết hợp máy công nghệ cao.
             </p>
             
             <p className="text-xs sm:text-sm text-beige-300 mb-3 leading-relaxed">
-              "Vị Bắc Kạn" được làm ra để giữ lại cảm giác ấy&nbsp;– 
-              cảm giác chọn được một món quà sạch, có&nbsp;vị, và có câu chuyện phía&nbsp;sau.
+              “Không gian chăm sóc thân – tâm chuyên nghiệp, ứng dụng đa phương pháp dưỡng sinh, hỗ trợ cơ thể tái lập trạng thái cân bằng tự nhiên một cách an toàn.”
             </p>
             
             <p className="text-base sm:text-lg font-bold text-beige-50 whitespace-nowrap">
-              Phòng khám uy tín số 1 Thái Nguyên
+              Đơn vị chăm sóc sức khỏe uy tín số 1 thái Nguyên 
             </p>
           </div>
           
@@ -48,7 +47,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-semibold text-beige-50 whitespace-nowrap">Email:</span>
-                <a href="mailto:aocuoilailan@gmail.com" className="break-all hover:text-beige-50 transition-colors text-xs sm:text-sm">aocuoilailan@gmail.com</a>
+                <a href="mailto:aocuoilailan@gmail.com" className="break-all hover:text-beige-50 transition-colors text-xs sm:text-sm">lantamduong2025@gmail.com</a>
               </li>
               <li className="flex items-start gap-2">
                 <span className="font-semibold text-beige-50 whitespace-nowrap">Website:</span>
@@ -61,7 +60,7 @@ export default function Footer() {
             </ul>
 
             {/* Social Icons */}
-            <div className="flex gap-3 mt-6">
+            {/* <div className="flex gap-3 mt-6">
               <a href="https://www.facebook.com/profile.php?id=61583588802212" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 flex items-center justify-center transition-colors cursor-pointer" aria-label="Facebook Messenger">
                 <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -92,7 +91,7 @@ export default function Footer() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
               </a>
-            </div>
+            </div> */}
           </div>
           
           {/* Cột 3: Đăng ký tư vấn */}
