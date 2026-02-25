@@ -22,35 +22,34 @@ export default function BrandStory() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-12 md:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-wood-900 mb-3 sm:mb-4 uppercase">
-            Hành trình dòng thuốc nam "họ Đào"
+            Hành trình cùng sức khỏe của bạn
           </h2>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 items-center">
           {/* Ảnh Ông chú bên trái */}
           <div className="order-2 lg:order-1">
-            <div className="relative w-full aspect-square max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-xl">
-              <img 
-                src="/images/ong-chu-rau.png" 
-                alt="Ông chú U50 với rổ rau xanh tươi, biểu cảm vui vẻ và thân thiện" 
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-xl">
+  <img 
+    src="/images/anh1_aoBlue.jpg" 
+    className="w-full h-full object-cover"
+    loading="lazy"
+  />
+</div>
           </div>
           
           {/* Chữ bên phải */}
           <div className="order-1 lg:order-2 space-y-4 sm:space-y-6">
             <p className="text-base sm:text-lg md:text-xl text-wood-700 leading-relaxed">
-              Lan Tâm Đường là sự tiếp nối của dòng thuốc Nam gia truyền họ Đào <span className="italic text-wood-800">– Nơi tri thức Đông y được truyền lại qua nhiều thế hệ bằng thực hành, trải nghiệm và đạo làm nghề.</span>
+              Hành Trình Gìn Giữ Tinh Hoa Đông Y Gia Truyền – Lan Tâm Đường là sự tiếp nối đầy tự hào của dòng thuốc Nam gia truyền họ Đào – nơi tri thức Đông y được lưu truyền qua nhiều thế hệ bằng thực hành, trải nghiệm thực tế và đạo làm nghề chuẩn mực.
             </p>
             
             <p className="text-base sm:text-lg md:text-xl text-wood-700 leading-relaxed">
-              Từ những bài thuốc dân gian, từ vườn cây, từ cách nhận biết thảo dược ngoài tự nhiên, Đông y đối với gia đình họ Đào không chỉ là nghề, mà là nếp sống – là trách nhiệm – là lời hứa với tổ tiên.
+              Đông Y – Không Chỉ Là Nghề, Mà Là Sứ Mệnh - Bắt nguồn từ những bài thuốc dân gian, từ khu vườn thảo dược xanh mát và kinh nghiệm nhận biết cây thuốc trong tự nhiên, Đông y đối với gia đình họ Đào không đơn thuần là một nghề nghiệp. Đó là nếp sống, là trách nhiệm thiêng liêng và cũng là lời hứa gìn giữ truyền thống với tổ tiên.
             </p>
             
             <p className="text-base sm:text-lg md:text-xl text-wood-700 leading-relaxed font-medium">
-              Người sáng lập Lan Tâm Đường sinh ra và lớn lên trong môi trường ấy, sớm được tiếp cận với thảo dược, bài thuốc cổ và tư duy điều hòa cơ thể theo học thuyết Đông y truyền thống.
+              Người sáng lập Lan Tâm Đường sinh ra và trưởng thành trong môi trường đậm chất Đông y ấy. Từ sớm đã được tiếp cận với thảo dược, những bài thuốc cổ truyền và tư duy điều hòa cơ thể theo học thuyết Đông y truyền thống, tạo nên nền tảng vững chắc cho hành trình kế thừa và phát triển hôm nay.
             </p>
           </div>
         </div>

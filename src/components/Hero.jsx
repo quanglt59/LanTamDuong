@@ -69,12 +69,18 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold text-wood-900 mb-4 sm:mb-6 leading-relaxed sm:leading-relaxed md:leading-relaxed lg:leading-relaxed xl:leading-relaxed text-balance">
-            Nguyễn Thị Kiều Chinh - Badgirl Hoàn lương
+            Sức khỏe là vốn quý
           </h1>
-          
-          <p className="text-base sm:text-lg md:text-xl text-wood-700 mb-6 sm:mb-8 leading-relaxed text-balance">
-            Điều trị bệnh lý xương khớp - Thoát vị đĩa đệm  Thoái hóa - Đau cổ vai gáy - Chèn ép thần kinh.
-          </p>
+          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif italic font-bold text-nature-green-800 mb-8 sm:mb-10 leading-relaxed text-balance tracking-wide relative">
+  <span className="absolute -left-4 -top-2 text-6xl text-nature-green-200 opacity-30 select-none font-serif italic">"</span>
+  <span className="relative z-10 inline-block border-l-4 border-nature-green-600 pl-4 sm:pl-6 py-1 bg-gradient-to-r from-nature-green-50/50 to-transparent">
+    Trong uống ngoài đồ.
+  </span>
+  <span className="absolute -right-4 -bottom-2 text-6xl text-nature-green-200 opacity-30 select-none font-serif italic">"</span>
+</p>
+          {/* <p className="text-base sm:text-lg md:text-xl text-wood-700 mb-6 sm:mb-8 leading-relaxed text-balance">
+            Hỗ trợ các vấn đề bệnh lý cơ xương khớp - Thoát vị đĩa đệm  Thoái hóa - Đau cổ vai gáy - Chèn ép thần kinh.
+          </p> */}
           
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <a

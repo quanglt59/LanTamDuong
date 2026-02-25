@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function ValuesAndCommitment() {
-  const [activeTab, setActiveTab] = useState('commitments');
+  const [activeTab, setActiveTab] = useState('vision');
   
   const commitments = [
     {
@@ -30,26 +30,59 @@ export default function ValuesAndCommitment() {
     }
   ];
 
-  const purposes = [
-    {
-      id: 1,
-      title: "Chia sẻ tri thức",
-      description: "Lan tỏa kiến thức Đông y đến cộng đồng một cách chính xác và có trách nhiệm",
-      icon: "📚"
-    },
-    {
-      id: 2,
-      title: "Gìn giữ giá trị gia truyền",
-      description: "Bảo tồn di sản thuốc Nam dòng họ Đào, tránh thất truyền và biến tướng",
-      icon: "🔐"
-    },
-    {
-      id: 3,
-      title: "Kết nối những người cùng chí hướng",
-      description: "Tạo cộng đồng yêu thích, nghiên cứu và phát triển Đông y một cách đúng đắn",
-      icon: "🤝"
-    }
-  ];
+  const vision = {
+    title: "🌏 TẦM NHÌN ",
+    description: "Trở thành thương hiệu Đông y chuẩn mực và uy tín hàng đầu, nâng tầm giá trị y học cổ truyền trong hệ thống chăm sóc sức khỏe toàn diện theo chuẩn mực hiện đại.",
+    goals: [
+      { icon: "🌿", text: "Xây dựng hệ sinh thái sản phẩm Đông y chuẩn mực" },
+      { icon: "🥇", text: "Ứng dụng thảo dược Nam trong dưỡng sinh và trị liệu" },
+      { icon: "🏡", text: "Góp phần hình thành cộng đồng sống thuận tự nhiên" }
+    ]
+  };
+
+  const mission = {
+    title: "💚 SỨ MỆNH",
+    description: "Lan Tâm Đường mang sứ mệnh:",
+    goals: [
+      { icon: "🌱", text: "Phục hồi cân bằng cơ thể từ căn nguyên" },
+      { icon: "🔄", text: "Cung cấp giải pháp \"Uống trong – Dưỡng ngoài\"" },
+      { icon: "🤝", text: "Đồng hành cùng khách hàng trong hành trình chăm sóc sức khỏe lâu dài" },
+      { icon: "🛡️", text: "Đề cao phòng bệnh hơn chữa bệnh" }
+    ]
+  };
+
+  const coreValues = [
+  {
+    number: 1,
+    title: "Kế thừa & Phát triển tinh hoa Đông y",
+    description: "Giữ gìn tinh thần và nguyên lý cốt lõi của y học cổ truyền.",
+    icon: "🏛️"
+  },
+  {
+    number: 2,
+    title: "Y Đạo Chính Trực",
+    description: "Không thổi phồng công dụng – không hứa hẹn phi thực tế.",
+    icon: "💎"
+  },
+  {
+    number: 3,
+    title: "Chuẩn Mực Chất Lượng",
+    description: "Dược liệu rõ nguồn gốc, quy trình kiểm soát nghiêm ngặt.",
+    icon: "🌳"
+  },
+  {
+    number: 4,
+    title: "Trị Liệu Căn Nguyên",
+    description: "Ưu tiên điều trị từ gốc thay vì tác động tức thời.",
+    icon: "⚖️"
+  },
+  {
+    number: 5,
+    title: "Tận Tâm Phụng Sự",
+    description: "Lắng nghe – Thấu hiểu – Đồng hành.",
+    icon: "❤️"
+  }
+];
 
   return (
     <section className="py-16 sm:py-20 md:py-24 bg-white">
@@ -60,174 +93,337 @@ export default function ValuesAndCommitment() {
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-nature-green-50 to-earth-50 rounded-full"></div>
               <h1 className="relative text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-wood-900 tracking-tight">
-                GIÁ TRỊ & CAM KẾT
+                GIÁ TRỊ ĐỒNG HÀNH
               </h1>
             </div>
-            <div className="mt-6 max-w-3xl">
-              <p className="text-lg sm:text-xl text-wood-600 leading-relaxed">
-                Lan Tâm Đường - Nơi tinh hoa thuốc Nam được gìn giữ, chia sẻ với trách nhiệm và tâm huyết
+            <div className="mt-8 max-w-3xl text-center relative">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 text-4xl text-nature-green-300 opacity-30 font-serif italic">
+                ❝
+              </div>
+              
+              <p className="text-2xl sm:text-3xl md:text-4xl mb-3 relative">
+                <span className="font-bold text-nature-green-600 relative inline-block">
+                  Lan Tâm Đường
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-nature-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform"></span>
+                </span>
               </p>
+              
+              <p className="text-xl sm:text-2xl md:text-3xl text-wood-600 italic font-light relative">
+                <span className="relative">
+                  Tinh Hoa Trị Liệu Cổ Truyền
+                  <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-12 h-0.5 bg-nature-green-300 rounded-full"></span>
+                </span>
+              </p>
+              
+              <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 text-4xl text-nature-green-300 opacity-30 font-serif italic rotate-180">
+                ❝
+              </div>
+            </div>
+            
+            <div className="mt-6 flex gap-2">
+              <span className="w-2 h-2 rounded-full bg-nature-green-400"></span>
+              <span className="w-2 h-2 rounded-full bg-nature-green-500"></span>
+              <span className="w-2 h-2 rounded-full bg-nature-green-600"></span>
             </div>
           </div>
         </div>
 
-        {/* Tab Navigation */}
+        {/* Tab Navigation - 3 tabs */}
         <div className="flex justify-center mb-12">
           <div className="inline-flex rounded-full border border-wood-200 bg-white p-1 shadow-sm">
             <button
-              onClick={() => setActiveTab('commitments')}
+              onClick={() => setActiveTab('vision')}
               className={`px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 ${
-                activeTab === 'commitments'
+                activeTab === 'vision'
                   ? 'bg-nature-green-600 text-white shadow-sm'
                   : 'text-wood-700 hover:text-nature-green-600 hover:bg-nature-green-50'
               }`}
             >
-              Cam Kết
+              Tầm Nhìn
             </button>
             <button
-              onClick={() => setActiveTab('purposes')}
+              onClick={() => setActiveTab('mission')}
               className={`px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 ${
-                activeTab === 'purposes'
+                activeTab === 'mission'
                   ? 'bg-earth-600 text-white shadow-sm'
                   : 'text-wood-700 hover:text-earth-600 hover:bg-earth-50'
               }`}
             >
-              Mục Đích
+              Sứ Mệnh
+            </button>
+            <button
+              onClick={() => setActiveTab('values')}
+              className={`px-6 sm:px-8 py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 ${
+                activeTab === 'values'
+                  ? 'bg-amber-600 text-white shadow-sm'
+                  : 'text-wood-700 hover:text-amber-600 hover:bg-amber-50'
+              }`}
+            >
+              Giá Trị Cốt Lõi
             </button>
           </div>
         </div>
 
         {/* Content Area */}
         <div className="relative">
-          {/* Cam Kết Content */}
-          {activeTab === 'commitments' && (
-            <div className="space-y-8">
-              <div className="text-center mb-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-nature-green-800 mb-4">
-                  Lan Tâm Đường cam kết
-                </h2>
-                <p className="text-wood-600 max-w-2xl mx-auto">
-                  Những nguyên tắc cốt lõi định hình cách chúng tôi hoạt động và phục vụ cộng đồng
-                </p>
-              </div>
+          {/* TẦM NHÌN Content */}
+          {/* TẦM NHÌN Content */}
+{activeTab === 'vision' && (
+  <div className="space-y-8">
+    <div className="text-center mb-8">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-nature-green-800 mb-4">
+        {vision.title}
+      </h2>
+    </div>
 
-              <div className="space-y-6">
-                {commitments.map((item) => (
-                  <div
-                    key={item.id}
-                    className="group relative bg-white rounded-xl border border-wood-100 hover:border-nature-green-200 transition-all duration-300 overflow-hidden"
-                  >
-                    {/* Left accent line */}
-                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-nature-green-400 to-nature-green-600 group-hover:from-nature-green-500 group-hover:to-nature-green-700 transition-all duration-300"></div>
-                    
-                    <div className="pl-8 pr-6 py-6">
-                      <div className="flex items-start gap-6">
-                        {/* Icon */}
-                        <div className="flex-shrink-0 w-16 h-16 rounded-lg bg-gradient-to-br from-nature-green-50 to-nature-green-100 flex items-center justify-center text-3xl group-hover:scale-105 transition-transform duration-300">
-                          {item.icon}
-                        </div>
-                        
-                        {/* Content */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-nature-green-100 text-nature-green-700 text-sm font-bold">
-                              {item.id}
-                            </span>
-                            <h3 className="text-xl sm:text-2xl font-bold text-wood-900 group-hover:text-nature-green-700 transition-colors duration-300">
-                              {item.title}
-                            </h3>
-                          </div>
-                          <p className="text-wood-600 leading-relaxed">
-                            {item.description}
-                          </p>
-                        </div>
-                        
-                        {/* Arrow indicator */}
-                        <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <svg className="w-6 h-6 text-nature-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+    {/* Card lớn duy nhất */}
+    <div className="relative bg-gradient-to-br from-nature-green-600 to-nature-green-800 rounded-3xl overflow-hidden shadow-2xl">
+      {/* Pattern Background */}
+      <div className="absolute inset-0 opacity-10">
+        <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <pattern id="vision-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1" fill="white"/>
+          </pattern>
+          <rect width="100" height="100" fill="url(#vision-pattern)"/>
+        </svg>
+      </div>
+      
+      <div className="relative p-8 sm:p-10 md:p-12 text-white">
+        {/* Quote Icon */}
+        <svg className="w-12 h-12 text-nature-green-300 mb-6 opacity-50" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+        </svg>
+        
+        <p className="text-xl sm:text-2xl md:text-3xl leading-relaxed mb-8 font-light">
+          {vision.description}
+        </p>
+        
+        <div className="border-t border-nature-green-400 pt-8">
+          <p className="text-lg sm:text-xl font-medium text-nature-green-200 mb-4">
+            Lan Tâm Đường hướng đến:
+          </p>
+          <div className="flex flex-wrap gap-3">
+            {vision.goals.map((goal, index) => (
+              <span key={index} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-nature-green-300 text-sm sm:text-base">
+                <span>{goal.icon}</span>
+                {goal.text}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+      {/* Decorative Elements */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-nature-green-500 rounded-full opacity-20 blur-2xl"></div>
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-nature-green-700 rounded-full opacity-20 blur-3xl"></div>
+    </div>
+  </div>
+)}
+
+          {/* SỨ MỆNH Content */}
+{activeTab === 'mission' && (
+  <div className="space-y-8">
+    <div className="text-center mb-8">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-earth-800 mb-4">
+        {mission.title}
+      </h2>
+    </div>
+
+    {/* Sứ mệnh chính */}
+    <div className="max-w-4xl mx-auto text-center mb-4">
+      <div className="relative">
+        <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-6xl text-earth-300 opacity-30 font-serif">
+          ❝
+        </div>
+        <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-6xl text-earth-300 opacity-30 font-serif rotate-180">
+          ❝
+        </div>
+      </div>
+    </div>
+
+    {/* Accordion Cards với nội dung mới */}
+    <div className="space-y-4 mt-8">
+      {/* Mục tiêu 1 */}
+      <div className="group">
+        <div className="bg-white rounded-xl border border-earth-200 hover:border-earth-400 transition-all overflow-hidden shadow-sm hover:shadow-md">
+          <div className="flex items-center justify-between p-5 cursor-pointer">
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-14 h-14 bg-earth-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform group-hover:bg-earth-200">
+                🌿
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-wood-900 group-hover:text-earth-700 transition-colors">
+                  Kế thừa và nâng tầm tinh hoa thuốc Nam gia truyền
+                </h3>
               </div>
             </div>
-          )}
-
-          {/* Mục Đích Content */}
-          {activeTab === 'purposes' && (
-            <div className="space-y-8">
-              <div className="text-center mb-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-earth-800 mb-4">
-                  Website Lan Tâm Đường được xây dựng với mục đích
-                </h2>
-                <p className="text-wood-600 max-w-2xl mx-auto">
-                  Tầm nhìn và sứ mệnh đằng sau sự ra đời của trang web này
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {purposes.map((item) => (
-                  <div
-                    key={item.id}
-                    className="group relative bg-gradient-to-br from-white to-earth-50 rounded-xl border border-wood-100 hover:border-earth-200 hover:shadow-lg transition-all duration-300 overflow-hidden"
-                  >
-                    <div className="p-6">
-                      {/* Top Section */}
-                      <div className="mb-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-earth-100 to-earth-200 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
-                            {item.icon}
-                          </div>
-                        </div>
-                        
-                        <h3 className="text-xl font-bold text-wood-900 group-hover:text-earth-700 transition-colors duration-300 mb-3">
-                          {item.title}
-                        </h3>
-                      </div>
-                      
-                      {/* Description */}
-                      <p className="text-wood-600 text-sm leading-relaxed mb-6">
-                        {item.description}
-                      </p>
-                      
-                      {/* Bottom Line */}
-                      <div className="flex items-center justify-between pt-4 border-t border-wood-100">
-                        <span className="text-wood-500 text-xs font-medium">Lan Tâm Đường</span>
-                        <div className="w-8 h-0.5 bg-gradient-to-r from-earth-300 to-earth-500 group-hover:w-12 transition-all duration-300"></div>
-                      </div>
-                    </div>
-                    
-                    {/* Corner accent */}
-                    <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
-                      <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-to-br from-earth-100 to-transparent"></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              {/* Additional Context */}
-              <div className="mt-12 pt-8 border-t border-wood-100">
-                <div className="max-w-3xl mx-auto text-center">
-                  <p className="text-wood-700 text-lg leading-relaxed">
-                    "Với những mục đích trên, Lan Tâm Đường mong muốn tạo dựng một không gian đáng tin cậy 
-                    cho việc học hỏi, trao đổi và phát triển kiến thức về Đông y một cách đúng đắn và có trách nhiệm."
-                  </p>
-                </div>
-              </div>
+            <div className="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600 text-xl font-light group-hover:bg-earth-200 transition-colors">
+              +
             </div>
-          )}
-
-          {/* Divider Line */}
-          <div className="mt-16 pt-8 border-t border-wood-100">
-            <div className="text-center">
-              <p className="text-wood-500 text-sm">
-                Lan Tâm Đường • Tinh hoa thuốc Nam gia truyền dòng họ Đào
+          </div>
+          
+          <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-300 px-5">
+            <div className="pb-5 pt-2 border-t border-earth-100">
+              <p className="text-wood-500 text-sm italic flex items-center gap-2">
+                <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
+                Bảo tồn và phát triển di sản thuốc Nam dòng họ Đào
               </p>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* Mục tiêu 2 */}
+      <div className="group">
+        <div className="bg-white rounded-xl border border-earth-200 hover:border-earth-400 transition-all overflow-hidden shadow-sm hover:shadow-md">
+          <div className="flex items-center justify-between p-5 cursor-pointer">
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-14 h-14 bg-earth-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform group-hover:bg-earth-200">
+                ⚖️
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-wood-900 group-hover:text-earth-700 transition-colors">
+                  Chuẩn hóa phương pháp "Trong uống – Ngoài dưỡng", tích hợp công nghệ hiện đại trong chăm sóc và trị liệu
+                </h3>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600 text-xl font-light group-hover:bg-earth-200 transition-colors">
+              +
+            </div>
+          </div>
+          
+          <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-300 px-5">
+            <div className="pb-5 pt-2 border-t border-earth-100">
+              <p className="text-wood-500 text-sm italic flex items-center gap-2">
+                <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
+                Kết hợp tinh hoa cổ truyền với thiết bị trị liệu tiên tiến
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mục tiêu 3 */}
+      <div className="group">
+        <div className="bg-white rounded-xl border border-earth-200 hover:border-earth-400 transition-all overflow-hidden shadow-sm hover:shadow-md">
+          <div className="flex items-center justify-between p-5 cursor-pointer">
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-14 h-14 bg-earth-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform group-hover:bg-earth-200">
+                ☯️
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-wood-900 group-hover:text-earth-700 transition-colors">
+                  Lan tỏa giá trị dưỡng sinh theo nguyên lý cân bằng Âm – Dương
+                </h3>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600 text-xl font-light group-hover:bg-earth-200 transition-colors">
+              +
+            </div>
+          </div>
+          
+          <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-300 px-5">
+            <div className="pb-5 pt-2 border-t border-earth-100">
+              <p className="text-wood-500 text-sm italic flex items-center gap-2">
+                <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
+                Hướng dẫn cộng đồng sống hài hòa với tự nhiên
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mục tiêu 4 */}
+      <div className="group">
+        <div className="bg-white rounded-xl border border-earth-200 hover:border-earth-400 transition-all overflow-hidden shadow-sm hover:shadow-md">
+          <div className="flex items-center justify-between p-5 cursor-pointer">
+            <div className="flex items-center gap-4">
+              <div className="flex-shrink-0 w-14 h-14 bg-earth-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform group-hover:bg-earth-200">
+                💚
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-wood-900 group-hover:text-earth-700 transition-colors">
+                  Phụng sự sức khỏe cộng đồng trên mọi miền Tổ quốc, hướng tới một xã hội "Thân khỏe – Tâm an – Trí sáng"
+                </h3>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-earth-100 flex items-center justify-center text-earth-600 text-xl font-light group-hover:bg-earth-200 transition-colors">
+              +
+            </div>
+          </div>
+          
+          <div className="max-h-0 group-hover:max-h-20 overflow-hidden transition-all duration-300 px-5">
+            <div className="pb-5 pt-2 border-t border-earth-100">
+              <p className="text-wood-500 text-sm italic flex items-center gap-2">
+                <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
+                Lan tỏa giá trị sức khỏe toàn diện đến mọi người dân Việt Nam
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* Footer Quote */}
+    <div className="text-center pt-6">
+      <div className="inline-flex items-center gap-3">
+        <span className="w-12 h-px bg-earth-300"></span>
+        <span className="text-earth-600 text-sm font-serif italic">Sứ mệnh cao cả - Hành trình bền bỉ</span>
+        <span className="w-12 h-px bg-earth-300"></span>
+      </div>
+    </div>
+  </div>
+)}
+
+          {/* GIÁ TRỊ CỐT LÕI Content */}
+{activeTab === 'values' && (
+  <div className="space-y-8">
+    <div className="text-center mb-8">
+      <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-amber-800 mb-4">
+        💎 GIÁ TRỊ CỐT LÕI
+      </h2>
+      <p className="text-wood-600 text-lg max-w-2xl mx-auto">
+        Những giá trị làm nên thương hiệu Lan Tâm Đường
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {coreValues.map((value) => (
+        <div key={value.number} className="group relative bg-white rounded-xl border border-wood-100 hover:border-amber-200 transition-all duration-300 overflow-hidden shadow-md hover:shadow-xl">
+          <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-amber-400 to-amber-600"></div>
+          
+          <div className="pl-6 pr-6 py-6">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-amber-50 to-amber-100 rounded-full flex items-center justify-center text-3xl group-hover:scale-110 transition-transform">
+                {value.icon}
+              </div>
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-100 text-amber-700 text-sm font-bold">
+                    {value.number}
+                  </span>
+                  <h3 className="text-xl font-bold text-wood-900 group-hover:text-amber-700 transition-colors">
+                    {value.title}
+                  </h3>
+                </div>
+                <p className="text-wood-600 leading-relaxed">
+                  {value.description}
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden opacity-10">
+            <div className="absolute top-0 right-0 w-8 h-8 bg-amber-400 rounded-full"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+)}
+
+          
         </div>
       </div>
     </section>

@@ -7,81 +7,225 @@ export default function Benefits() {
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-wood-900 mb-3 sm:mb-4 uppercase">
             TẠI SAO CHỌN LAN TÂM ĐƯỜNG?
           </h2>
-          
-          {/* Văn bản giới thiệu mới */}
-          <div className="max-w-3xl mx-auto px-4 sm:px-6">
-            <div className="text-center mb-8">
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-nature-green-700 mb-2">
-                Ý nghĩa thương hiệu
-              </h3>
-            
-            
-            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-wood-100 p-6 sm:p-8 mb-8">
-              <div className="space-y-4 sm:space-y-5 text-left">
-                <div className="flex items-start gap-3">
-                  <span className="text-nature-green-600 font-bold text-lg">-</span>
-                  <div>
-                    <p className="text-wood-800 font-medium mb-1">"Lan" – Sự mềm mại, bền bỉ</p>
-                    <p className="text-wood-600 text-sm sm:text-base">
-                      Như bông lan vươn mình qua khó khăn, sức mạnh mềm chinh phục mọi thử thách
-                    </p>
+        </div>
+
+        {/* 4 LÝ DO BẠN NÊN CHỌN LAN TÂM ĐƯỜNG */}
+        <div className="mb-16 sm:mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {/* Mục 1: Chuyên môn vững vàng */}
+            <div className="group bg-white rounded-xl shadow-lg border border-wood-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-1.5 bg-gradient-to-r from-nature-green-500 to-nature-green-600 w-full"></div>
+              <div className="p-6 sm:p-7">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-nature-green-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    ✨
                   </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <span className="text-nature-green-600 font-bold text-lg">-</span>
-                  <div>
-                    <p className="text-wood-800 font-medium mb-1">"Tâm" – Cái tâm của người làm Đông y</p>
-                    <p className="text-wood-600 text-sm sm:text-base">
-                      Tâm trong sáng, đạo đức nghề nghiệp là nền tảng của mọi liều thuốc quý
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start gap-3">
-                  <span className="text-nature-green-600 font-bold text-lg">-</span>
-                  <div>
-                    <p className="text-wood-800 font-medium mb-1">"Đường" – Con đường truyền thừa, không đứt gãy</p>
-                    <p className="text-wood-600 text-sm sm:text-base">
-                      Con đường tiếp nối truyền thống, bảo tồn và phát triển tinh hoa y học cổ truyền
+                  <div className="text-left">
+                    <h4 className="text-xl font-bold text-wood-900 mb-3">
+                      Chuyên môn vững vàng – Thủ thuật chuẩn Đông y
+                    </h4>
+                    <p className="text-wood-600 text-sm leading-relaxed">
+                      Áp dụng kỹ thuật xoa bóp bấm huyệt chuyên sâu, tác động chính xác vào huyệt đạo và kinh lạc, hỗ trợ khai thông khí huyết, giảm đau và phục hồi chức năng một cách tự nhiên, an toàn.
                     </p>
                   </div>
                 </div>
               </div>
             </div>
+
+            {/* Mục 2: Kết hợp công nghệ hiện đại */}
+            <div className="group bg-white rounded-xl shadow-lg border border-wood-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-1.5 bg-gradient-to-r from-nature-green-500 to-nature-green-600 w-full"></div>
+              <div className="p-6 sm:p-7">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-nature-green-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    ⚙️
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-xl font-bold text-wood-900 mb-3">
+                      Kết hợp công nghệ trị liệu hiện đại
+                    </h4>
+                    <p className="text-wood-600 text-sm leading-relaxed">
+                      Ứng dụng thiết bị công nghệ cao trong quá trình trị liệu nhằm nâng cao hiệu quả phục hồi, hỗ trợ cải thiện tuần hoàn, thư giãn cơ – xương – khớp và tối ưu thời gian điều trị.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            
-            <div className="bg-nature-green-50 rounded-xl sm:rounded-2xl border-2 border-nature-green-200 p-6 sm:p-8 mb-8">
-              <p className="text-wood-700 text-sm sm:text-base leading-relaxed mb-4">
-                <span className="font-bold text-nature-green-700">Lan Tâm Đường</span> được hình thành từ nền tảng thuốc Nam gia truyền của dòng họ Đào – nơi tri thức thảo dược không chỉ được lưu giữ, mà còn được tiếp nối bằng trách nhiệm, hiểu biết và lòng tôn kính với Đông y cổ truyền.
-              </p>
-              
-              <div className="border-t border-nature-green-300 pt-6 mt-6">
-                <h4 className="text-lg sm:text-xl font-bold text-nature-green-700 mb-4 text-center">
-                  Chúng tôi tin rằng:
-                </h4>
-                <p className="text-wood-700 text-sm sm:text-base leading-relaxed italic text-center">
-                  "Thuốc Nam không chỉ là thảo dược – mà là trí tuệ của tổ tiên, là đạo làm nghề, là cội rễ của một dòng họ."
-                </p>
+
+            {/* Mục 3: Phối hợp thuốc Đông y gia truyền */}
+            <div className="group bg-white rounded-xl shadow-lg border border-wood-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-1.5 bg-gradient-to-r from-nature-green-500 to-nature-green-600 w-full"></div>
+              <div className="p-6 sm:p-7">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-nature-green-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    🌱
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-xl font-bold text-wood-900 mb-3">
+                      Phối hợp thuốc Đông y gia truyền
+                    </h4>
+                    <p className="text-wood-600 text-sm leading-relaxed">
+                      Kết hợp thảo dược và bài thuốc Nam theo nguyên lý điều hòa từ gốc, giúp nâng cao thể trạng và duy trì sức khỏe bền vững lâu dài.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Mục 4: Tận tâm trong từng liệu trình */}
+            <div className="group bg-white rounded-xl shadow-lg border border-wood-100 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="h-1.5 bg-gradient-to-r from-nature-green-500 to-nature-green-600 w-full"></div>
+              <div className="p-6 sm:p-7">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-nature-green-100 rounded-full flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-300">
+                    💖
+                  </div>
+                  <div className="text-left">
+                    <h4 className="text-xl font-bold text-wood-900 mb-3">
+                      Tận tâm trong từng liệu trình
+                    </h4>
+                    <p className="text-wood-600 text-sm leading-relaxed">
+                      Lấy chữ Tâm làm kim chỉ nam, xây dựng quy trình chăm sóc chuyên nghiệp, minh bạch và đặt lợi ích sức khỏe khách hàng lên hàng đầu.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="mt-4 flex justify-center">
-  <div className="relative w-full max-w-2xl mx-auto overflow-hidden rounded-lg shadow-lg">
-    <img 
-      src="/images/KieuChinh.jpg" 
-      alt="Thuốc Nam gia truyền dòng họ Đào - Lan Tâm Đường"
-      className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
-      loading="lazy"
-    />
-    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-      <p className="text-white text-base sm:text-lg font-medium text-center">
-        Thuốc Nam gia truyền dòng họ Đào
+        {/* Văn bản ý nghĩa thương hiệu (Giữ nguyên phần cũ) */}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8">
+            <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-nature-green-700 mb-2">
+              Ý nghĩa thương hiệu
+            </h3>
+          
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-wood-100 p-6 sm:p-8 mb-8">
+            <div className="space-y-4 sm:space-y-5 text-left">
+              <div className="flex items-start gap-3">
+                <span className="text-nature-green-600 font-bold text-lg">-</span>
+                <div>
+                  <p className="text-wood-800 font-medium mb-1">"Lan" – Sự mềm mại, bền bỉ</p>
+                  <p className="text-wood-600 text-sm sm:text-base">
+                    Như bông lan vươn mình qua khó khăn, sức mạnh mềm chinh phục mọi thử thách
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <span className="text-nature-green-600 font-bold text-lg">-</span>
+                <div>
+                  <p className="text-wood-800 font-medium mb-1">"Tâm" – Cái tâm của người làm Đông y</p>
+                  <p className="text-wood-600 text-sm sm:text-base">
+                    Tâm trong sáng, đạo đức nghề nghiệp là nền tảng của mọi liều thuốc quý
+                  </p>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-3">
+                <span className="text-nature-green-600 font-bold text-lg">-</span>
+                <div>
+                  <p className="text-wood-800 font-medium mb-1">"Đường" – Con đường truyền thừa, không đứt gãy</p>
+                  <p className="text-wood-600 text-sm sm:text-base">
+                    Con đường tiếp nối truyền thống, bảo tồn và phát triển tinh hoa y học cổ truyền
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+          <div className="bg-nature-green-50 rounded-xl sm:rounded-2xl border-2 border-nature-green-200 p-6 sm:p-8 mb-8">
+            {/* <p className="text-wood-700 text-sm sm:text-base leading-relaxed mb-4">
+              <span className="font-bold text-nature-green-700">Lan Tâm Đường</span> được hình thành từ nền tảng thuốc Nam gia truyền của dòng họ Đào – nơi tri thức thảo dược không chỉ được lưu giữ, mà còn được tiếp nối bằng trách nhiệm, hiểu biết và lòng tôn kính với Đông y cổ truyền.
+            </p> */}
+            
+            <div className="text-center relative py-8 px-4">
+  {/* Background decoration */}
+  <div className="absolute inset-0 bg-gradient-to-r from-nature-green-100/30 via-beige-100/50 to-nature-green-100/30 rounded-3xl transform -skew-y-1"></div>
+  
+  {/* Content */}
+  <div className="relative">
+    {/* Decorative quote marks */}
+    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-7xl text-nature-green-200 font-serif opacity-30 select-none">
+      ❝
+    </div>
+    
+    <h4 className="text-xl sm:text-2xl md:text-2xl font-bold text-nature-green-800 mb-4 relative">
+      <span className="relative inline-block">
+        Tại sao bạn chăm sóc bảo dưỡng sức khỏe?
+        <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-nature-green-400 to-transparent"></span>
+      </span>
+    </h4>
+    
+    <div className="relative">
+      <p className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-serif italic font-light text-nature-green-700 leading-relaxed tracking-wide">
+        <span className="relative inline-block">
+          <span className="absolute -inset-1 bg-nature-green-50/50 blur-lg rounded-lg"></span>
+          <span className="relative">
+            "Vì bạn còn sức khỏe để chăm"
+          </span>
+        </span>
+      </p>
+    </div>
+    
+    {/* Decorative elements */}
+    <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1">
+      <span className="w-1.5 h-1.5 rounded-full bg-nature-green-300"></span>
+      <span className="w-1.5 h-1.5 rounded-full bg-nature-green-400"></span>
+      <span className="w-1.5 h-1.5 rounded-full bg-nature-green-500"></span>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+
+        {/* Ảnh tập thể */}
+        <div className="mt-4 flex justify-center">
+          <div className="relative w-full max-w-2xl mx-auto overflow-hidden rounded-lg shadow-lg">
+            <img 
+              src="/images/anhTapThe1.jpg" 
+              alt="Thuốc Nam gia truyền dòng họ Đào - Lan Tâm Đường"
+              className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
+              loading="lazy"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 overflow-hidden">
+  {/* Container for marquee effect */}
+  <div className="relative w-full overflow-hidden">
+    {/* First marquee line */}
+    <div className="animate-marquee whitespace-nowrap inline-block">
+      <p className="text-white text-base sm:text-lg font-medium text-center inline-block mr-8">
+        ✦ Truyền thống và đổi mới ✦
+      </p>
+      <p className="text-white text-base sm:text-lg font-medium text-center inline-block mr-8">
+        ✦ Truyền thống và đổi mới ✦
+      </p>
+      <p className="text-white text-base sm:text-lg font-medium text-center inline-block">
+        ✦ Truyền thống và đổi mới ✦
+      </p>
+    </div>
+    
+    {/* Second marquee line (duplicate for seamless loop) */}
+    <div className="animate-marquee2 whitespace-nowrap inline-block absolute top-0">
+      <p className="text-white text-base sm:text-lg font-medium text-center inline-block mr-8">
+        ✦ Truyền thống và đổi mới ✦
+      </p>
+      <p className="text-white text-base sm:text-lg font-medium text-center inline-block mr-8">
+        ✦ Truyền thống và đổi mới ✦
+      </p>
+      <p className="text-white text-base sm:text-lg font-medium text-center inline-block">
+        ✦ Truyền thống và đổi mới ✦
       </p>
     </div>
   </div>
 </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 {/* Văn bản KẾ THỪA & HỌC THUẬT */}
 <div className="mt-8 space-y-6 sm:space-y-8">
@@ -414,11 +558,4 @@ export default function Benefits() {
 
 
 
-        </div>
-        
-        {/* Mobile: Cards stack vertically */}
-        
-      </div>
-    </section>
-  );
-}
+       

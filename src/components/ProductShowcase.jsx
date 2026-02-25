@@ -6,24 +6,21 @@ export default function CenterModeImageCarousel() {
   const images = [
     {
       id: 1,
-      src: "/images/2.png",
-      alt: "Thuốc Nam gia truyền - Bài thuốc cổ phương",
-      title: "Bài thuốc cổ phương",
-      description: "Lưu truyền qua nhiều thế hệ"
+      src: "/images/bk1.jpg",
+      title: "Ban Giám Khảo cuộc thi ",
+      description: "ASIAN BEAUTY INDUSTRY CHAMPIONSHIP & PMU "
     },
     {
       id: 2,
-      src: "/images/3.png",
-      alt: "Thuốc Nam gia truyền - Thảo dược tự nhiên",
-      title: "Thảo dược tự nhiên",
-      description: "Thu hái từ rừng nguyên sinh"
+      src: "/images/bk2.jpg",
+      title: "Y sĩ y học cổ truyền",
+      description: "Trường trung cấp y tế Thái Nguyên"
     },
     {
       id: 3,
-      src: "/images/4.png",
-      alt: "Thuốc Nam gia truyền - Chế biến thủ công",
-      title: "Chế biến thủ công",
-      description: "Tỉ mỉ, công phu"
+      src: "/images/bk3.jpg",
+      title: "Tốt nghiệp lớp bồi dưỡng chuyên sâu",
+      description: "Hội đông y tỉnh Thái Nguyên"
     },
     {
       id: 4,
@@ -109,7 +106,7 @@ export default function CenterModeImageCarousel() {
                       : 'left-full translate-x-[-35%] scale-90 opacity-60'
                   }`}
                   style={{ 
-                    width: '650px',  // TĂNG CHIỀU NGANG
+                    width: '450px',  // TĂNG CHIỀU NGANG
                     height: '550px', // TĂNG CHIỀU DỌC
                     maxWidth: '95vw'
                   }}
@@ -144,9 +141,7 @@ export default function CenterModeImageCarousel() {
                       {/* Content */}
                       <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
                         <div className="flex items-center gap-3 mb-2">
-                          <span className="inline-flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 text-white text-sm sm:text-base font-bold">
-                            0{image.id}
-                          </span>
+                          
                           <h3 className="text-white text-xl sm:text-2xl md:text-3xl font-bold">
                             {image.title}
                           </h3>
@@ -195,21 +190,20 @@ export default function CenterModeImageCarousel() {
           <div className="bg-white rounded-2xl shadow-lg border border-wood-100 p-6 sm:p-8 md:p-10">
             <div className="max-w-3xl mx-auto text-center">
               <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-wood-900 mb-4">
-                Hành Trình Thuốc Nam Lan Tâm Đường
+                Hành Trình về người sáng lập 
               </h3>
               
               <div className="space-y-4 text-left">
                 <p className="text-wood-700 text-sm sm:text-base leading-relaxed">
-                  Mỗi bức ảnh trong bộ sưu tập này đều kể một câu chuyện riêng về hành trình của thuốc Nam gia truyền. 
-                  Từ những cánh rừng nguyên sinh nơi thảo dược được thu hái theo mùa, qua bàn tay khéo léo và tâm huyết 
-                  của những người thợ lành nghề, đến khi trở thành những bài thuốc quý được lưu truyền qua nhiều thế hệ.
+                  <span className="font-bold text-nature-green-700">Tôi là Đào Thị Lan</span>, sinh ra và lớn lên tại Định Hóa, Thái Nguyên – trong một gia đình có truyền thống làm thuốc Nam gia truyền.
                 </p>
-                
-                <p className="text-wood-700 text-sm sm:text-base leading-relaxed">
-                  <span className="font-bold text-nature-green-700">Lan Tâm Đường</span> không chỉ gìn giữ những bài thuốc cổ phương, 
-                  mà còn bảo tồn cả quy trình, kinh nghiệm và tâm huyết đằng sau mỗi vị thuốc. Đây là di sản của dòng họ Đào, 
-                  và cũng là tài sản quý giá của nền y học cổ truyền Việt Nam.
+                <p>Tuổi thơ của tôi gắn liền với những vườn thảo dược, những bài thuốc cổ và lời dạy về chữ Tâm của người làm nghề. Với tôi, Đông y không chỉ là phương pháp chữa bệnh, mà là trách nhiệm gìn giữ sức khỏe cho từng gia đình.</p>
+                <p>Nhưng chỉ đến khi chính gia đình mình trải qua thử thách, tôi mới thấu hiểu trọn vẹn ý nghĩa của điều đó. Sau khi xây dựng xong ngôi nhà mơ ước, chồng tôi bất ngờ đổ bệnh. Khoảng thời gian ấy khiến tôi nhận ra rằng:
                 </p>
+                <p>Sức khỏe mới chính là nền móng thật sự của hạnh phúc.</p>
+                <p>May mắn thay, nhờ sự kiên trì điều dưỡng, chăm sóc và kết hợp thuốc Nam gia truyền, sức khỏe của anh dần hồi phục và ổn định. Khoảnh khắc nhìn người mình yêu thương khỏe mạnh trở lại, tôi càng tin sâu sắc vào giá trị của những gì gia đình mình đang gìn giữ.</p>
+                <p>Từ đó, truyền thống không còn chỉ là sự kế thừa – mà trở thành niềm tin và sứ mệnh sống.</p>
+                <p>Tôi hiểu rằng, nếu sức khỏe được giữ vững, mỗi mái ấm sẽ vững vàng. Và tôi mong mình có thể trở thành một “bước chạm nhỏ”, đồng hành cùng nhiều gia đình ngoài kia – để họ cũng giữ được bình an và hạnh phúc như gia đình tôi hôm nay. 💚</p>
               </div>
             </div>
           </div>
