@@ -3,7 +3,7 @@ export default function FloatingContacts() {
     <div className="fixed left-3 bottom-6 sm:left-4 sm:bottom-8 z-50 flex flex-col gap-2.5 sm:gap-3">
       {/* Zalo Button */}
       <a
-        href="https://zalo.me/0869063666"
+        href="https://zalo.me/0356859566"
         target="_blank"
         rel="noopener noreferrer"
         className="relative group"

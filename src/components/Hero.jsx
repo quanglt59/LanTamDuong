@@ -1,30 +1,24 @@
 export default function Hero() {
   return (
     <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
-      {/* Background - Bắc Kạn Landscape */}
+      {/* Background - Bắc Kạn Landscape (giữ nguyên) */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Base gradient - Núi rừng Bắc Kạn */}
         <div className="absolute inset-0 bg-gradient-to-br from-nature-green-50 via-nature-green-100/50 to-earth-100"></div>
         
-        {/* Background image placeholder - sẽ thay bằng hình ảnh thực tế */}
         <div 
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(/images/KieuChinh.jpg)',
+            backgroundImage: 'url(/images/bgr2.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            // maskImage: 'linear-gradient(to right, transparent 0%, transparent 40%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.8) 100%)',
-            // WebkitMaskImage: 'linear-gradient(to right, transparent 0%, transparent 40%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.8) 100%)'
           }}
         >
-          {/* Fallback pattern nếu không có hình ảnh */}
           <div className="absolute inset-0 bg-gradient-to-b from-nature-green-200/20 via-transparent to-earth-200/20"></div>
         </div>
         
-        {/* Decorative elements - Núi non */}
+        {/* Núi non */}
         <div className="absolute bottom-0 left-0 right-0 h-32 sm:h-48 md:h-64">
-          {/* Núi layer 1 - Xa */}
           <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 200" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,200 L0,120 Q150,100 300,120 T600,110 T900,125 T1200,115 L1200,200 Z" fill="url(#mountain1)" opacity="0.3"/>
             <defs>
@@ -35,7 +29,6 @@ export default function Hero() {
             </defs>
           </svg>
           
-          {/* Núi layer 2 - Gần hơn */}
           <svg className="absolute bottom-0 w-full h-full" viewBox="0 0 1200 200" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M0,200 L0,140 Q200,120 400,135 T800,130 T1200,140 L1200,200 Z" fill="url(#mountain2)" opacity="0.4"/>
             <defs>
@@ -47,7 +40,7 @@ export default function Hero() {
           </svg>
         </div>
         
-        {/* Decorative elements - Lá cây, nông sản */}
+        {/* Lá cây, nông sản */}
         <div className="absolute top-20 right-10 sm:top-32 sm:right-20 w-32 h-32 sm:w-48 sm:h-48 opacity-10">
           <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 20 Q30 30 25 50 Q20 70 30 80 Q40 90 50 85 Q60 90 70 80 Q80 70 75 50 Q70 30 50 20 Z" fill="#3a8f5c"/>
@@ -62,61 +55,109 @@ export default function Hero() {
           </svg>
         </div>
         
-        {/* Overlay để text dễ đọc - mờ bên trái, trong suốt bên phải */}
+        {/* Overlay để text dễ đọc */}
         <div className="absolute inset-0 bg-gradient-to-r from-beige-50/95 via-beige-50/70 via-beige-50/30 to-transparent"></div>
       </div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold text-wood-900 mb-4 sm:mb-6 leading-relaxed sm:leading-relaxed md:leading-relaxed lg:leading-relaxed xl:leading-relaxed text-balance">
+          {/* Heading - TĂNG KHOẢNG CÁCH DƯỚI */}
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif font-bold text-wood-900 mb-6 sm:mb-8 md:mb-10 leading-tight text-balance animate-fade-in-up">
             Sức khỏe là vốn quý
           </h1>
-          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif italic font-bold text-nature-green-800 mb-8 sm:mb-10 leading-relaxed text-balance tracking-wide relative">
-  <span className="absolute -left-4 -top-2 text-6xl text-nature-green-200 opacity-30 select-none font-serif italic">"</span>
-  <span className="relative z-10 inline-block border-l-4 border-nature-green-600 pl-4 sm:pl-6 py-1 bg-gradient-to-r from-nature-green-50/50 to-transparent">
-    Trong uống ngoài đồ.
-  </span>
-  <span className="absolute -right-4 -bottom-2 text-6xl text-nature-green-200 opacity-30 select-none font-serif italic">"</span>
-</p>
-          {/* <p className="text-base sm:text-lg md:text-xl text-wood-700 mb-6 sm:mb-8 leading-relaxed text-balance">
-            Hỗ trợ các vấn đề bệnh lý cơ xương khớp - Thoát vị đĩa đệm  Thoái hóa - Đau cổ vai gáy - Chèn ép thần kinh.
-          </p> */}
           
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          {/* Quote - TĂNG KHOẢNG CÁCH GIỮA CÁC DÒNG VÀ KHOẢNG CÁCH DƯỚI */}
+          <div className="relative mb-8 sm:mb-10 md:mb-12 animate-fade-in-up animation-delay-200">
+            <span className="absolute -left-4 -top-2 text-6xl text-nature-green-200 opacity-30 select-none font-serif italic">"</span>
+            <p className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif italic font-bold text-nature-green-800 leading-relaxed pl-4 sm:pl-6 border-l-4 border-nature-green-600 bg-gradient-to-r from-nature-green-50/30 to-transparent py-3 sm:py-4 mb-2">
+              Kiến tạo Thân khỏe 
+            </p>
+            <p className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif italic font-bold text-nature-green-800 leading-relaxed pl-4 sm:pl-6 border-l-4 border-nature-green-600 bg-gradient-to-r from-nature-green-50/30 to-transparent py-3 sm:py-4">
+              Tâm an – Trí minh. 
+            </p>
+            <span className="absolute -right-4 -bottom-2 text-6xl text-nature-green-200 opacity-30 select-none font-serif italic">"</span>
+          </div>
+          
+          {/* CTA Buttons - TĂNG KHOẢNG CÁCH DƯỚI */}
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 mb-8 sm:mb-10 animate-fade-in-up animation-delay-400">
             <a
               href="#products-grid"
-              className="bg-nature-green-600 text-white px-6 py-3.5 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-nature-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center cursor-pointer flex items-center justify-center"
+              className="group bg-nature-green-600 text-white px-6 py-3.5 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-nature-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center flex items-center justify-center"
             >
-              Dịch Vụ Khám Tư Vấn Và Điều Trị
+              <span>Dịch Vụ Khám Tư Vấn Và Điều Trị</span>
+              <svg className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </a>
             <a
               href="#brand-story"
-              className="bg-white text-nature-green-600 border-2 border-nature-green-600 px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-nature-green-50 transition-all duration-200 text-center cursor-pointer"
+              className="bg-white text-nature-green-600 border-2 border-nature-green-600 px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-nature-green-50 transition-all duration-200 text-center"
             >
               Giới Thiệu
             </a>
           </div>
-          
-          {/* Trust indicators */}
-          <div className="mt-8 sm:mt-12 flex flex-wrap gap-4 sm:gap-6 text-xs sm:text-sm text-wood-600">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-nature-green-600" fill="currentColor" viewBox="0 0 20 20">
+
+          {/* Dòng slogan - TĂNG KHOẢNG CÁCH TRÊN VÀ GIỮA CÁC PHẦN TỬ */}
+          <div className="relative group mt-6 sm:mt-8 pt-4 border-t-2 border-nature-green-200/30 animate-slide-in-bottom animation-delay-600">
+            {/* Hiệu ứng glow phía sau */}
+            <div className="absolute -inset-2 bg-gradient-to-r from-nature-green-300/10 via-nature-green-400/20 to-nature-green-300/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            
+            {/* Nội dung chính - TĂNG KHOẢNG CÁCH GIỮA CÁC ICON VÀ CHỮ */}
+            <div className="relative flex flex-wrap items-center gap-3 sm:gap-4 text-sm sm:text-base md:text-lg">
+              {/* Icon nhảy */}
+              <svg className="w-5 h-5 text-nature-green-500 animate-bounce" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <span>Kết hợp máy công nghệ</span>
-            </div>
-            {/* <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-nature-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+              
+              {/* Chữ "CHỦ ĐỘNG" */}
+              <span className="relative group/word1">
+                <span className="absolute -inset-1 bg-nature-green-500/10 rounded-lg blur-sm scale-90 group-hover:scale-100 transition-transform duration-500"></span>
+                <span className="relative font-bold text-transparent bg-clip-text bg-gradient-to-r from-nature-green-700 via-nature-green-500 to-nature-green-700 animate-gradient-x bg-[length:200%_auto]">
+                  CHỦ ĐỘNG
+                </span>
+              </span>
+              
+              {/* Chữ thường */}
+              <span className="text-nature-green-600 font-semibold animate-pulse-slow">
+                sức khỏe hôm nay,
+              </span>
+              
+              {/* Dấu cách xoay */}
+              <span className="w-2 h-2 bg-nature-green-400 rounded-full animate-spin-slow"></span>
+              
+              {/* Chữ "THỊNH VƯỢNG" */}
+              <span className="relative group/word2">
+                <span className="absolute -inset-1 bg-earth-500/10 rounded-lg blur-sm scale-90 group-hover:scale-100 transition-transform duration-500 delay-150"></span>
+                <span className="relative font-bold text-transparent bg-clip-text bg-gradient-to-r from-earth-700 via-earth-500 to-earth-700 animate-gradient-x animation-delay-500 bg-[length:200%_auto]">
+                  THỊNH VƯỢNG
+                </span>
+              </span>
+              
+              {/* Chữ thường */}
+              <span className="text-earth-600 font-semibold animate-pulse-slow animation-delay-300">
+                cuộc sống ngày mai
+              </span>
+              
+              {/* Icon mũi tên */}
+              <svg className="w-5 h-5 text-nature-green-400 animate-slide-left" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
-              <span>Nguồn gốc Bắc Kạn</span>
-            </div> */}
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-nature-green-600" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-              <span>Chất lượng cao</span>
             </div>
+            
+            {/* Gạch chân động */}
+            <div className="absolute -bottom-2 left-0 w-0 h-0.5 bg-gradient-to-r from-nature-green-500 to-earth-500 group-hover:w-full transition-all duration-700"></div>
+            
+            {/* Hiệu ứng sóng */}
+            <div className="absolute -bottom-3 left-0 w-full h-4 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+              <div className="w-full h-full bg-gradient-to-r from-transparent via-nature-green-300/30 to-transparent animate-wave"></div>
+            </div>
+          </div>
+
+          {/* Hạt sáng bay lơ lửng */}
+          <div className="absolute -right-20 top-1/2 w-40 h-40 pointer-events-none">
+            <div className="absolute w-2 h-2 bg-nature-green-300/30 rounded-full animate-float" style={{ top: '10%', left: '20%' }}></div>
+            <div className="absolute w-3 h-3 bg-earth-300/30 rounded-full animate-float animation-delay-200" style={{ top: '30%', left: '60%' }}></div>
+            <div className="absolute w-1.5 h-1.5 bg-nature-green-400/30 rounded-full animate-float animation-delay-400" style={{ top: '70%', left: '40%' }}></div>
           </div>
         </div>
       </div>

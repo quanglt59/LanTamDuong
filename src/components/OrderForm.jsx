@@ -5,11 +5,16 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     name: '',
     phone: '',
     email: '',
-    address: '',
+    city: '',
+    district: '',
+    ward: '',
+    street: '',
+    healthIssue: '',
+    healthIssueOther: '',
     appointmentDate: '',
     appointmentTime: '',
     message: '',
-    products: '' // Thêm trường để lưu thông tin sản phẩm đã chọn
+    products: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
@@ -17,6 +22,170 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
   const [notificationMessage, setNotificationMessage] = useState('');
   const [notificationType, setNotificationType] = useState('success');
   const [googleSheetsUrl, setGoogleSheetsUrl] = useState('');
+
+  // Dữ liệu 34 tỉnh thành
+  const cities = [
+    // Miền Bắc (18 tỉnh)
+    { id: 'hanoi', name: 'Hà Nội' },
+    { id: 'haiphong', name: 'Hải Phòng' },
+    { id: 'thainguyen', name: 'Thái Nguyên' },
+    { id: 'bacninh', name: 'Bắc Ninh' },
+    { id: 'bacgiang', name: 'Bắc Giang' },
+    { id: 'hungyen', name: 'Hưng Yên' },
+    { id: 'haiduong', name: 'Hải Dương' },
+    { id: 'vinhphuc', name: 'Vĩnh Phúc' },
+    { id: 'phutho', name: 'Phú Thọ' },
+    { id: 'hoabinh', name: 'Hòa Bình' },
+    { id: 'sonla', name: 'Sơn La' },
+    { id: 'dienbien', name: 'Điện Biên' },
+    { id: 'laichau', name: 'Lai Châu' },
+    { id: 'laocai', name: 'Lào Cai' },
+    { id: 'yenbai', name: 'Yên Bái' },
+    { id: 'tuyenquang', name: 'Tuyên Quang' },
+    { id: 'hagiang', name: 'Hà Giang' },
+    { id: 'caobang', name: 'Cao Bằng' },
+    { id: 'langson', name: 'Lạng Sơn' },
+    { id: 'quangninh', name: 'Quảng Ninh' },
+    { id: 'backan', name: 'Bắc Kạn' },
+    
+    // Miền Trung (7 tỉnh)
+    { id: 'thanhhoa', name: 'Thanh Hóa' },
+    { id: 'nghean', name: 'Nghệ An' },
+    { id: 'hatinh', name: 'Hà Tĩnh' },
+    { id: 'quangbinh', name: 'Quảng Bình' },
+    { id: 'quangtri', name: 'Quảng Trị' },
+    { id: 'thuathienhue', name: 'Thừa Thiên Huế' },
+    { id: 'danang', name: 'Đà Nẵng' },
+    
+    // Miền Nam (6 tỉnh)
+    { id: 'hcm', name: 'TP. Hồ Chí Minh' },
+    { id: 'binhduong', name: 'Bình Dương' },
+    { id: 'dongnai', name: 'Đồng Nai' },
+    { id: 'baria-vungtau', name: 'Bà Rịa - Vũng Tàu' },
+    { id: 'longan', name: 'Long An' },
+    { id: 'tiengiang', name: 'Tiền Giang' },
+    { id: 'bentre', name: 'Bến Tre' }
+  ];
+
+  // Dữ liệu quận huyện (mẫu)
+  const districts = {
+    hanoi: [
+      { id: 'cau-giay', name: 'Quận Cầu Giấy' },
+      { id: 'thanh-xuan', name: 'Quận Thanh Xuân' },
+      { id: 'hoan-kiem', name: 'Quận Hoàn Kiếm' },
+      { id: 'ba-dinh', name: 'Quận Ba Đình' },
+      { id: 'hai-ba-trung', name: 'Quận Hai Bà Trưng' },
+      { id: 'dong-da', name: 'Quận Đống Đa' },
+      { id: 'tay-ho', name: 'Quận Tây Hồ' },
+      { id: 'long-bien', name: 'Quận Long Biên' },
+      { id: 'ha-dong', name: 'Quận Hà Đông' },
+      { id: 'nam-tu-liem', name: 'Quận Nam Từ Liêm' },
+      { id: 'bac-tu-liem', name: 'Quận Bắc Từ Liêm' },
+      { id: 'soc-son', name: 'Huyện Sóc Sơn' },
+      { id: 'dong-anh', name: 'Huyện Đông Anh' },
+      { id: 'gia-lam', name: 'Huyện Gia Lâm' }
+    ],
+    thainguyen: [
+      { id: 'tp-thainguyen', name: 'Thành phố Thái Nguyên' },
+      { id: 'song-cong', name: 'Thành phố Sông Công' },
+      { id: 'pho-yen', name: 'Thị xã Phổ Yên' },
+      { id: 'dong-hy', name: 'Huyện Đồng Hỷ' },
+      { id: 'dinh-hoa', name: 'Huyện Định Hóa' },
+      { id: 'vo-nhai', name: 'Huyện Võ Nhai' },
+      { id: 'phu-luong', name: 'Huyện Phú Lương' },
+      { id: 'dai-tu', name: 'Huyện Đại Từ' }
+    ],
+    bacninh: [
+      { id: 'tp-bacninh', name: 'Thành phố Bắc Ninh' },
+      { id: 'tu-son', name: 'Thị xã Từ Sơn' },
+      { id: 'thuan-thanh', name: 'Huyện Thuận Thành' },
+      { id: 'que-vo', name: 'Huyện Quế Võ' },
+      { id: 'tien-du', name: 'Huyện Tiên Du' },
+      { id: 'yen-phong', name: 'Huyện Yên Phong' },
+      { id: 'gia-binh', name: 'Huyện Gia Bình' },
+      { id: 'luong-tai', name: 'Huyện Lương Tài' }
+    ],
+    hcm: [
+      { id: 'q1', name: 'Quận 1' },
+      { id: 'q3', name: 'Quận 3' },
+      { id: 'q4', name: 'Quận 4' },
+      { id: 'q5', name: 'Quận 5' },
+      { id: 'q6', name: 'Quận 6' },
+      { id: 'q7', name: 'Quận 7' },
+      { id: 'q8', name: 'Quận 8' },
+      { id: 'q10', name: 'Quận 10' },
+      { id: 'q11', name: 'Quận 11' },
+      { id: 'q12', name: 'Quận 12' },
+      { id: 'binh-thanh', name: 'Quận Bình Thạnh' },
+      { id: 'phu-nhuan', name: 'Quận Phú Nhuận' },
+      { id: 'go-vap', name: 'Quận Gò Vấp' },
+      { id: 'tan-binh', name: 'Quận Tân Bình' },
+      { id: 'tan-phu', name: 'Quận Tân Phú' },
+      { id: 'binh-tan', name: 'Quận Bình Tân' },
+      { id: 'thu-duc', name: 'Thành phố Thủ Đức' },
+      { id: 'hoc-mon', name: 'Huyện Hóc Môn' },
+      { id: 'binh-chanh', name: 'Huyện Bình Chánh' },
+      { id: 'nha-be', name: 'Huyện Nhà Bè' }
+    ],
+    thanhhoa: [
+      { id: 'tp-thanhhoa', name: 'Thành phố Thanh Hóa' },
+      { id: 'sam-son', name: 'Thành phố Sầm Sơn' },
+      { id: 'nghi-son', name: 'Thị xã Nghi Sơn' },
+      { id: 'hoang-hoa', name: 'Huyện Hoằng Hóa' }
+    ],
+    danang: [
+      { id: 'hai-chau', name: 'Quận Hải Châu' },
+      { id: 'thanh-khe', name: 'Quận Thanh Khê' },
+      { id: 'son-tra', name: 'Quận Sơn Trà' },
+      { id: 'ngu-hanh-son', name: 'Quận Ngũ Hành Sơn' },
+      { id: 'lien-chieu', name: 'Quận Liên Chiểu' },
+      { id: 'cam-le', name: 'Quận Cẩm Lệ' },
+      { id: 'hoa-vang', name: 'Huyện Hòa Vang' }
+    ]
+  };
+
+  // Dữ liệu phường xã (mẫu)
+  const wards = {
+    'cau-giay': [
+      { id: 'dich-vong', name: 'Phường Dịch Vọng' },
+      { id: 'dich-vong-hau', name: 'Phường Dịch Vọng Hậu' },
+      { id: 'quan-hoa', name: 'Phường Quan Hoa' },
+      { id: 'yen-hoa', name: 'Phường Yên Hòa' },
+      { id: 'nghia-do', name: 'Phường Nghĩa Đô' },
+      { id: 'nghia-tan', name: 'Phường Nghĩa Tân' },
+      { id: 'mai-dich', name: 'Phường Mai Dịch' }
+    ],
+    'tp-thainguyen': [
+      { id: 'phu-xa', name: 'Phường Phú Xá' },
+      { id: 'quang-trung', name: 'Phường Quang Trung' },
+      { id: 'phan-dinh-phung', name: 'Phường Phan Đình Phùng' },
+      { id: 'tuc-duyen', name: 'Phường Túc Duyên' },
+      { id: 'hoang-van-thu', name: 'Phường Hoàng Văn Thụ' },
+      { id: 'trung-thanh', name: 'Xã Trung Thành' }
+    ],
+    'pho-yen': [
+      { id: 'ba-hang', name: 'Phường Bãi Hàng' },
+      { id: 'dong-tien', name: 'Xã Đông Tiến' },
+      { id: 'thanh-cong', name: 'Xã Thành Công' }
+    ],
+    'tp-bacninh': [
+      { id: 'ninh-xa', name: 'Phường Ninh Xá' },
+      { id: 've-an', name: 'Phường Vệ An' },
+      { id: 'suoi-hoa', name: 'Phường Suối Hoa' },
+      { id: 'tien-an', name: 'Phường Tiền An' }
+    ]
+  };
+
+  // Danh sách nhóm bệnh
+  const healthIssues = [
+    { value: 'xuong-khop', label: '🦴 NHÓM XƯƠNG KHỚP – CƠ XƯƠNG' },
+    { value: 'than-kinh', label: '🧠 NHÓM THẦN KINH – TUẦN HOÀN' },
+    { value: 'ho-hap', label: '🌬️ NHÓM HÔ HẤP' },
+    { value: 'phuc-hoi', label: '💪 NHÓM PHỤC HỒI CHỨC NĂNG' },
+    { value: 'suy-nhuoc', label: '🌱 NHÓM SUY NHƯỢC – THỂ TRẠNG' },
+    { value: 'phu-nu', label: '🌸 NHÓM CHĂM SÓC PHỤ NỮ – NỘI TIẾT' },
+    { value: 'khac', label: '🔹 Vấn đề khác (vui lòng ghi rõ)' }
+  ];
 
   // Load Google Sheets URL từ environment variable
   useEffect(() => {
@@ -85,6 +254,27 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     { value: '18:00', label: '18:00' }
   ];
 
+  // Hàm xử lý khi chọn tỉnh/thành phố
+  const handleCityChange = (e) => {
+    const cityId = e.target.value;
+    setFormData({
+      ...formData,
+      city: cityId,
+      district: '',
+      ward: ''
+    });
+  };
+
+  // Hàm xử lý khi chọn quận/huyện
+  const handleDistrictChange = (e) => {
+    const districtId = e.target.value;
+    setFormData({
+      ...formData,
+      district: districtId,
+      ward: ''
+    });
+  };
+
   // Hàm gửi dữ liệu đến Google Sheets
   const sendToGoogleSheets = async (data) => {
     const googleSheetsUrl = import.meta.env.VITE_GOOGLE_SHEETS_URL;
@@ -95,15 +285,21 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     }
 
     try {
-      // Thêm timestamp và thông tin sản phẩm
+      // Lấy tên đầy đủ của địa chỉ
+      const cityName = cities.find(c => c.id === data.city)?.name || '';
+      const districtName = districts[data.city]?.find(d => d.id === data.district)?.name || '';
+      const wardName = wards[data.district]?.find(w => w.id === data.ward)?.name || '';
+      const fullAddress = `${data.street}, ${wardName}, ${districtName}, ${cityName}`.replace(/^, |, $/g, '');
+
       const submissionData = {
         ...data,
         timestamp: new Date().toLocaleString('vi-VN'),
         products: data.products || 'Không có sản phẩm',
-        totalAmount: customBasketItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0
+        totalAmount: customBasketItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0,
+        healthIssueFull: data.healthIssue === 'khac' ? `Khác: ${data.healthIssueOther}` : healthIssues.find(i => i.value === data.healthIssue)?.label || '',
+        fullAddress: fullAddress
       };
 
-      // Gửi dữ liệu đến Google Sheets
       const response = await fetch(googleSheetsUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -125,20 +321,42 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     setIsSubmitting(true);
     setSubmitError(null);
     
-    // Validate ngày và giờ
+    // Validate
     if (!formData.appointmentDate || !formData.appointmentTime) {
       setSubmitError('Vui lòng chọn ngày và giờ khám');
       setIsSubmitting(false);
       return;
     }
+
+    if (!formData.healthIssue) {
+      setSubmitError('Vui lòng chọn nhóm vấn đề sức khỏe');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (formData.healthIssue === 'khac' && !formData.healthIssueOther) {
+      setSubmitError('Vui lòng ghi rõ vấn đề sức khỏe của bạn');
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!formData.city || !formData.district || !formData.ward || !formData.street) {
+      setSubmitError('Vui lòng nhập đầy đủ địa chỉ');
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
-      // Chuẩn bị dữ liệu
       const appointmentData = {
         name: formData.name,
         phone: formData.phone,
         email: formData.email || '',
-        address: formData.address,
+        city: formData.city,
+        district: formData.district,
+        ward: formData.ward,
+        street: formData.street,
+        healthIssue: formData.healthIssue,
+        healthIssueOther: formData.healthIssueOther || '',
         appointmentDate: formData.appointmentDate,
         appointmentTime: formData.appointmentTime,
         message: formData.message || '',
@@ -146,11 +364,18 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
         totalAmount: customBasketItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0
       };
       
-      // Gửi dữ liệu đến Google Sheets
       const sent = await sendToGoogleSheets(appointmentData);
       
       if (sent) {
-        // Hiển thị thông báo thành công
+        const cityName = cities.find(c => c.id === formData.city)?.name || '';
+        const districtName = districts[formData.city]?.find(d => d.id === formData.district)?.name || '';
+        const wardName = wards[formData.district]?.find(w => w.id === formData.ward)?.name || '';
+        const fullAddress = `${formData.street}, ${wardName}, ${districtName}, ${cityName}`.replace(/^, |, $/g, '');
+
+        const healthIssueDisplay = formData.healthIssue === 'khac' 
+          ? formData.healthIssueOther 
+          : healthIssues.find(i => i.value === formData.healthIssue)?.label || '';
+
         const productInfo = customBasketItems?.length > 0 
           ? `\n\nSản phẩm đã chọn:\n${customBasketItems.map(item => 
               `• ${item.name} (SL: ${item.quantity}, Giá: ${formatPrice(item.price)}đ)`
@@ -158,27 +383,29 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
           : '';
 
         showSuccessNotification(
-          `Đặt lịch khám thành công!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Ngày: ${new Date(formData.appointmentDate).toLocaleDateString('vi-VN')}\n• Giờ: ${formData.appointmentTime}${productInfo}\n\nChúng tôi sẽ liên hệ xác nhận trong vòng 2 giờ làm việc.`
+          `Đặt lịch khám thành công!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Địa chỉ: ${fullAddress}\n• Vấn đề: ${healthIssueDisplay}\n• Ngày: ${new Date(formData.appointmentDate).toLocaleDateString('vi-VN')}\n• Giờ: ${formData.appointmentTime}${productInfo}\n\nChúng tôi sẽ liên hệ xác nhận trong vòng 2 giờ làm việc.`
         );
         
-        // Reset form
         setFormData({
           name: '',
           phone: '',
           email: '',
-          address: '',
+          city: '',
+          district: '',
+          ward: '',
+          street: '',
+          healthIssue: '',
+          healthIssueOther: '',
           appointmentDate: '',
           appointmentTime: '',
           message: '',
           products: ''
         });
 
-        // Mở link Google Sheets sau 2 giây
         setTimeout(() => {
           window.open(googleSheetsUrl, '_blank');
         }, 5000);
       } else {
-        // Nếu không có URL, chỉ log ra console
         console.log('Dữ liệu đặt lịch:', appointmentData);
         showSuccessNotification(
           `Đặt lịch khám thành công (Chế độ test)!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Ngày: ${new Date(formData.appointmentDate).toLocaleDateString('vi-VN')}\n• Giờ: ${formData.appointmentTime}`
@@ -357,72 +584,146 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
                 />
               </div>
               
+              {/* Địa chỉ - Tỉnh/Thành phố và Quận/Huyện */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+  <div>
+    <label htmlFor="city" className="block text-sm font-medium text-wood-700 mb-2">
+      Tỉnh/Thành phố <span className="text-red-500">*</span>
+    </label>
+    <select
+      id="city"
+      name="city"
+      required
+      value={formData.city}
+      onChange={handleCityChange}
+      className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors bg-white"
+    >
+      <option value="">Chọn Tỉnh/Thành phố</option>
+      {cities.map((city) => (
+        <option key={city.id} value={city.id}>
+          {city.name}
+        </option>
+      ))}
+    </select>
+  </div>
+
+  {/* Địa chỉ - Quận/Huyện */}
+  {formData.city && (
+    <div>
+      <label htmlFor="district" className="block text-sm font-medium text-wood-700 mb-2">
+        Quận/Huyện <span className="text-red-500">*</span>
+      </label>
+      <select
+        id="district"
+        name="district"
+        required
+        value={formData.district}
+        onChange={handleDistrictChange}
+        className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors bg-white"
+      >
+        <option value="">Chọn Quận/Huyện</option>
+        {districts[formData.city]?.map((district) => (
+          <option key={district.id} value={district.id}>
+            {district.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  )}
+</div>
+
+{/* Địa chỉ - Phường/Xã và Số nhà */}
+{(formData.city && formData.district) && (
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+    <div>
+      <label htmlFor="ward" className="block text-sm font-medium text-wood-700 mb-2">
+        Phường/Xã <span className="text-red-500">*</span>
+      </label>
+      <select
+        id="ward"
+        name="ward"
+        required
+        value={formData.ward}
+        onChange={handleChange}
+        className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors bg-white"
+      >
+        <option value="">Chọn Phường/Xã</option>
+        {wards[formData.district]?.map((ward) => (
+          <option key={ward.id} value={ward.id}>
+            {ward.name}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Địa chỉ - Số nhà, đường */}
+    <div>
+      <label htmlFor="street" className="block text-sm font-medium text-wood-700 mb-2">
+        Số nhà, tên đường <span className="text-red-500">*</span>
+      </label>
+      <input
+        type="text"
+        id="street"
+        name="street"
+        required
+        value={formData.street}
+        onChange={handleChange}
+        className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors"
+        placeholder="Số nhà, tên đường"
+      />
+    </div>
+  </div>
+)}
+
+{/* Hiển thị thông báo khi chưa chọn đủ */}
+{formData.city && !formData.district && (
+  <p className="text-xs text-amber-600 mt-1">
+    Vui lòng chọn Quận/Huyện để tiếp tục
+  </p>
+)}
+
+              {/* Vấn đề sức khỏe */}
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-wood-700 mb-2">
-                  Nhập vấn đề sức khỏe cần khám: <span className="text-red-500">*</span>
+                <label htmlFor="healthIssue" className="block text-sm font-medium text-wood-700 mb-2">
+                  Vấn đề sức khỏe cần hỗ trợ <span className="text-red-500">*</span>
                 </label>
-                <textarea
-                  id="address"
-                  name="address"
+                <select
+                  id="healthIssue"
+                  name="healthIssue"
                   required
-                  value={formData.address}
+                  value={formData.healthIssue}
                   onChange={handleChange}
-                  rows="3"
-                  className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors resize-none"
-                  placeholder="Nhập tình trạng sức khỏe của bạn, câu hỏi dành cho bác sĩ và các vấn đề sức khỏe cần khám"
-                />
+                  className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors bg-white"
+                >
+                  <option value="">Chọn nhóm vấn đề sức khỏe</option>
+                  {healthIssues.map((issue) => (
+                    <option key={issue.value} value={issue.value}>
+                      {issue.label}
+                    </option>
+                  ))}
+                </select>
               </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+
+              {formData.healthIssue === 'khac' && (
                 <div>
-                  <label htmlFor="appointmentDate" className="block text-sm font-medium text-wood-700 mb-2">
-                    Ngày cần khám <span className="text-red-500">*</span>
+                  <label htmlFor="healthIssueOther" className="block text-sm font-medium text-wood-700 mb-2">
+                    Ghi rõ vấn đề sức khỏe <span className="text-red-500">*</span>
                   </label>
-                  <select
-                    id="appointmentDate"
-                    name="appointmentDate"
+                  <input
+                    type="text"
+                    id="healthIssueOther"
+                    name="healthIssueOther"
                     required
-                    value={formData.appointmentDate}
+                    value={formData.healthIssueOther}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors bg-white"
-                  >
-                    <option value="">Chọn ngày khám</option>
-                    {generateDates().map((date) => (
-                      <option key={date.value} value={date.value}>
-                        {date.label}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-xs text-wood-500 mt-1">
-                    Lịch làm việc: Thứ 2 - Chủ Nhật
-                  </p>
+                    className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors"
+                    placeholder="Nhập chi tiết vấn đề sức khỏe của bạn..."
+                  />
                 </div>
-                
-                <div>
-                  <label htmlFor="appointmentTime" className="block text-sm font-medium text-wood-700 mb-2">
-                    Giờ cần khám <span className="text-red-500">*</span>
-                  </label>
-                  <select
-                    id="appointmentTime"
-                    name="appointmentTime"
-                    required
-                    value={formData.appointmentTime}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors bg-white"
-                  >
-                    <option value="">Chọn giờ khám</option>
-                    {workingHours.map((time) => (
-                      <option key={time.value} value={time.value}>
-                        {time.label}
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-xs text-wood-500 mt-1">
-                    Giờ làm việc: 8:00 - 18:00 (Nghỉ trưa: 12:00 - 13:00)
-                  </p>
-                </div>
-              </div>
+              )}
               
+              
+              {/* Ghi chú thêm */}
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-wood-700 mb-2">
                   Ghi chú thêm <span className="text-wood-500 font-normal">(không bắt buộc)</span>
@@ -434,7 +735,7 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
                   onChange={handleChange}
                   rows="4"
                   className="w-full px-4 py-3 border border-wood-200 rounded-lg focus:ring-2 focus:ring-nature-green-500 focus:border-nature-green-500 outline-none transition-colors resize-none"
-                  placeholder="Dị ứng thuốc, tiền sử bệnh, hoặc yêu cầu đặc biệt..."
+                  placeholder="Tình trạng hiện tại, có đang sử dụng phương pháp nào không?, hoặc yêu cầu đặc biệt..."
                 />
               </div>
               

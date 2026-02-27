@@ -32,7 +32,7 @@ export default function Footer() {
             </p>
             
             <p className="text-base sm:text-lg font-bold text-beige-50 whitespace-nowrap">
-              Đơn vị chăm sóc sức khỏe uy tín số 1 thái Nguyên 
+              Đơn vị chăm sóc sức khỏe uy tín số 1 Thái Nguyên 
             </p>
           </div>
           
