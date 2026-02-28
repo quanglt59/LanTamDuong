@@ -2408,7 +2408,6 @@ const wards = {
     });
   };
 
- // Hàm gửi dữ liệu đến Google Sheets
 const sendToGoogleSheets = async (data) => {
   const googleSheetsUrl = import.meta.env.VITE_GOOGLE_SHEETS_URL;
   
@@ -2432,15 +2431,15 @@ const sendToGoogleSheets = async (data) => {
     const healthIssueObj = healthIssues.find(i => i.value === data.healthIssue);
     const healthIssueLabel = healthIssueObj?.label || '';
 
-    // Chuẩn bị dữ liệu gửi đi - ĐẢM BẢO KHỚP VỚI HEADERS TRONG SHEET
+    // Chuẩn bị dữ liệu gửi đi
     const submissionData = {
       timestamp: new Date().toLocaleString('vi-VN'),
       fullName: data.name,
       phone: data.phone,
       email: data.email || '',
-      city: cityName, // Gửi tên thành phố thay vì ID
-      district: districtName, // Gửi tên quận/huyện thay vì ID
-      ward: wardName, // Gửi tên phường/xã thay vì ID
+      city: cityName,
+      district: districtName,
+      ward: wardName,
       street: data.street,
       fullAddress: `${data.street}, ${wardName}, ${districtName}, ${cityName}`.replace(/^, |, $/g, ''),
       healthIssue: healthIssueLabel,
@@ -2454,23 +2453,25 @@ const sendToGoogleSheets = async (data) => {
 
     console.log('Đang gửi dữ liệu:', submissionData);
 
-    // THỬ CÁCH 1: Dùng mode: 'no-cors' (đơn giản nhất)
+    // Gửi đến Google Apps Script Web App
     const response = await fetch(googleSheetsUrl, {
       method: 'POST',
-      mode: 'no-cors', // TẠM THỜI DÙNG no-cors để test
+      mode: 'cors', // Quan trọng: dùng cors thay vì no-cors
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(submissionData)
     });
 
-    // Với no-cors, response sẽ là opaque, không thể đọc được
-    // Nhưng request vẫn được gửi đi
-    console.log('Đã gửi request với mode no-cors');
-    
-    // Tạm thời return true để không hiện chế độ test
-    // Sau đó kiểm tra trong Google Sheet xem có dữ liệu không
-    return true;
+    const result = await response.json();
+    console.log('Kết quả từ server:', result);
+
+    if (result.success) {
+      return true;
+    } else {
+      console.error('Server error:', result.error);
+      return false;
+    }
 
   } catch (error) {
     console.error('Lỗi gửi dữ liệu:', error);
@@ -2563,7 +2564,7 @@ const sendToGoogleSheets = async (data) => {
       } else {
         console.log('Dữ liệu đặt lịch:', appointmentData);
         showSuccessNotification(
-          `Đặt lịch khám thành công (Chế độ test)!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Vấn đề sức khỏe: ${formData.healthIssueDisplay}\n`
+          `Đặt lịch khám thành công (Chế độ test)!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Vấn đề sức khỏe: ${formData.healthIssue}\n`
         );
       }
       
