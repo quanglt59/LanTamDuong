@@ -2563,7 +2563,7 @@ const sendToGoogleSheets = async (data) => {
       } else {
         console.log('Dữ liệu đặt lịch:', appointmentData);
         showSuccessNotification(
-          `Đặt lịch khám thành công (Chế độ test)!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Vấn đề sức khỏe: ${formData.healthIssue}\n`
+          `Đặt lịch khám thành công (Chế độ test)!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Vấn đề sức khỏe: ${formData.healthIssueDisplay}\n`
         );
       }
       
