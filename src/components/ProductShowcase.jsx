@@ -6,6 +6,11 @@ export default function CenterModeImageCarousel() {
   const images = [
     {
       id: 1,
+      src: "/images/phongkham7.jpg",
+      type: 'image'
+    },
+    {
+      id: 2,
       src: "/videos/hienthivd1.mp4",
       thumbnail: "/images/thumbnail-video1.jpg",
       type: 'video'

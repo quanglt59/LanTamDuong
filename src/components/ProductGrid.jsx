@@ -144,28 +144,173 @@ export default function ProductGrid() {
   </div>
 </div>
 
-        {/* Danh mục hỗ trợ */}
-        <div className="text-center mb-8 sm:mb-10">
-          <p className="text-base sm:text-lg text-wood-600 max-w-2xl mx-auto px-4 sm:px-0">
-            Danh mục hỗ trợ & chăm sóc sức khỏe:
-          </p>
-          <div className="mt-4 overflow-hidden relative">
-            <div className="flex gap-2 sm:gap-3 text-sm sm:text-base text-wood-700 animate-marquee whitespace-nowrap">
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Hỗ trợ các vấn đề về sinh lý – hiếm muộn nam & nữ</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Các bệnh lý về Gan</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Các bệnh lý về Thận</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Hen phế quản – Viêm phổi – U phổi</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Tim mạch – Thần kinh – Huyết áp cao/thấp – Viêm đa khớp</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Thoái hóa xương khớp – Đau đầu – Đau dây thần kinh – Gout</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Viêm loét dạ dày – Đại tràng – Trĩ nội – Trĩ ngoại</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Viêm xoang mũi</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Các bệnh có khối u – U bướu – U nang</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Lở loét – Ngứa do huyết nhiệt</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Bó gãy xương – Phục hồi sau chấn thương</span>
-              <span className="bg-beige-100 px-3 py-1 rounded-full inline-block">Các vấn đề về Tiểu tiện</span>
-            </div>
-          </div>
-        </div>
+        {/* Danh mục hỗ trợ - ĐÃ SỬA */}
+{/* Danh mục hỗ trợ - CHỮ NÂU - NỀN XANH */}
+<div className="text-center mb-8 sm:mb-10">
+  <p className="text-base sm:text-lg text-wood-700 max-w-2xl mx-auto px-4 sm:px-0 font-medium">
+    <span className="inline-block border-b-2 border-nature-green-300 pb-1 px-4">
+      Danh mục hỗ trợ & chăm sóc sức khỏe
+    </span>
+  </p>
+  
+  {/* Container với gradient hai đầu */}
+  <div className="mt-6 relative">
+    {/* Gradient mờ hai đầu - điều chỉnh màu cho phù hợp */}
+    <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-r from-white via-white to-transparent z-10"></div>
+    <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-20 bg-gradient-to-l from-white via-white to-transparent z-10"></div>
+    
+    {/* Marquee */}
+    <div className="overflow-hidden py-3">
+      <div className="flex gap-3 text-sm sm:text-base animate-marquee-slow whitespace-nowrap" 
+           style={{ animationDuration: '10s' }}>
+        
+        {/* Item 1 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse"></span>
+          <span className="font-medium text-wood-700">Hỗ trợ các vấn đề về sinh lý – hiếm muộn nam & nữ</span>
+        </span>
+        
+        {/* Item 2 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-200"></span>
+          <span className="font-medium text-wood-700">Các bệnh lý về Gan</span>
+        </span>
+        
+        {/* Item 3 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-300"></span>
+          <span className="font-medium text-wood-700">Các bệnh lý về Thận</span>
+        </span>
+        
+        {/* Item 4 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-400"></span>
+          <span className="font-medium text-wood-700">Hen phế quản – Viêm phổi – U phổi</span>
+        </span>
+        
+        {/* Item 5 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-500"></span>
+          <span className="font-medium text-wood-700">Tim mạch – Thần kinh – Huyết áp cao/thấp – Viêm đa khớp</span>
+        </span>
+        
+        {/* Item 6 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse"></span>
+          <span className="font-medium text-wood-700">Thoái hóa xương khớp – Đau đầu – Đau dây thần kinh – Gout</span>
+        </span>
+        
+        {/* Item 7 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-200"></span>
+          <span className="font-medium text-wood-700">Viêm loét dạ dày – Đại tràng – Trĩ nội – Trĩ ngoại</span>
+        </span>
+        
+        {/* Item 8 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-300"></span>
+          <span className="font-medium text-wood-700">Viêm xoang mũi</span>
+        </span>
+        
+        {/* Item 9 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-400"></span>
+          <span className="font-medium text-wood-700">Các bệnh có khối u – U bướu – U nang</span>
+        </span>
+        
+        {/* Item 10 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-500"></span>
+          <span className="font-medium text-wood-700">Lở loét – Ngứa do huyết nhiệt</span>
+        </span>
+        
+        {/* Item 11 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse"></span>
+          <span className="font-medium text-wood-700">Bó gãy xương – Phục hồi sau chấn thương</span>
+        </span>
+        
+        {/* Item 12 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-200"></span>
+          <span className="font-medium text-wood-700">Các vấn đề về Tiểu tiện</span>
+        </span>
+        
+        {/* Item 1 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse"></span>
+          <span className="font-medium text-wood-700">Hỗ trợ các vấn đề về sinh lý – hiếm muộn nam & nữ</span>
+        </span>
+        
+        {/* Item 2 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-200"></span>
+          <span className="font-medium text-wood-700">Các bệnh lý về Gan</span>
+        </span>
+        
+        {/* Item 3 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-300"></span>
+          <span className="font-medium text-wood-700">Các bệnh lý về Thận</span>
+        </span>
+        
+        {/* Item 4 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-400"></span>
+          <span className="font-medium text-wood-700">Hen phế quản – Viêm phổi – U phổi</span>
+        </span>
+        
+        {/* Item 5 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-500"></span>
+          <span className="font-medium text-wood-700">Tim mạch – Thần kinh – Huyết áp cao/thấp – Viêm đa khớp</span>
+        </span>
+        
+        {/* Item 6 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse"></span>
+          <span className="font-medium text-wood-700">Thoái hóa xương khớp – Đau đầu – Đau dây thần kinh – Gout</span>
+        </span>
+        
+        {/* Item 7 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-200"></span>
+          <span className="font-medium text-wood-700">Viêm loét dạ dày – Đại tràng – Trĩ nội – Trĩ ngoại</span>
+        </span>
+        
+        {/* Item 8 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-300"></span>
+          <span className="font-medium text-wood-700">Viêm xoang mũi</span>
+        </span>
+        
+        {/* Item 9 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-400"></span>
+          <span className="font-medium text-wood-700">Các bệnh có khối u – U bướu – U nang</span>
+        </span>
+        
+        {/* Item 10 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-500"></span>
+          <span className="font-medium text-wood-700">Lở loét – Ngứa do huyết nhiệt</span>
+        </span>
+        
+        {/* Item 11 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse"></span>
+          <span className="font-medium text-wood-700">Bó gãy xương – Phục hồi sau chấn thương</span>
+        </span>
+        
+        {/* Item 12 */}
+        <span className="bg-nature-green-100 px-4 py-2.5 rounded-full border-2 border-nature-green-300 shadow-md flex items-center gap-2 hover:scale-105 transition-transform duration-300 cursor-default">
+          <span className="w-2.5 h-2.5 bg-wood-600 rounded-full animate-pulse animation-delay-200"></span>
+          <span className="font-medium text-wood-700">Các vấn đề về Tiểu tiện</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
 
         {/* Search and Filter */}
         <div className="mb-8 sm:mb-10 space-y-4">

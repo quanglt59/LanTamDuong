@@ -424,3 +424,36 @@
 .animation-delay-1000 {
   animation-delay: 1000ms;
 }
+
+/* Animation cho marquee chậm hơn */
+@keyframes marquee-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-slow {
+  animation: marquee-slow 40s linear infinite; /* Tăng từ 20s lên 40s */
+}
+
+/* Animation delays cho các chấm */
+.animation-delay-200 {
+  animation-delay: 200ms;
+}
+.animation-delay-300 {
+  animation-delay: 300ms;
+}
+.animation-delay-400 {
+  animation-delay: 400ms;
+}
+.animation-delay-500 {
+  animation-delay: 500ms;
+}
+
+/* Hover effect để tạm dừng marquee */
+.animate-marquee-slow:hover {
+  animation-play-state: paused;
+}

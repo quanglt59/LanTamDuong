@@ -16,15 +16,16 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-beige-50/95 backdrop-blur-sm border-b border-wood-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-3 sm:py-4 md:grid md:grid-cols-3 md:py-4">
-         {/* Phần 1: Logo và tagline - Chiếm 1/3, căn trái */}
-<div className="flex flex-col items-start justify-center">
-  <div className="flex flex-col items-start">
-    <Logo className="h-10 w-auto sm:h-12 md:h-14 flex-shrink-0" />
-    <p className="text-xs sm:text-sm text-wood-600 leading-tight italic mt-1.5 whitespace-nowrap">
-      Tinh hoa thuốc Nam gia truyền dòng họ Đào
-    </p>
-  </div>
-</div>
+          {/* Phần 1: Logo và tagline - Chiếm 1/3, căn trái */}
+          <div className="flex flex-col items-start justify-center">
+            {/* Bọc logo trong thẻ a để click về trang chủ */}
+            <a href="/" className="flex flex-col items-start cursor-pointer" onClick={closeMenu}>
+              <Logo className="h-10 w-auto sm:h-12 md:h-14 flex-shrink-0" />
+              <p className="text-xs sm:text-sm text-wood-600 leading-tight italic mt-1.5 whitespace-nowrap hover:text-nature-green-600 transition-colors duration-200">
+                Tinh hoa thuốc Nam gia truyền dòng họ Đào
+              </p>
+            </a>
+          </div>
           
           {/* Phần 2: Navigation - Chiếm 1/3, căn giữa */}
           <nav className="hidden md:flex items-center justify-center space-x-6 lg:space-x-8">
@@ -98,13 +99,15 @@ export default function Header() {
             {/* Menu */}
             <nav className="absolute top-full left-0 right-0 bg-white border-b border-wood-200 shadow-xl z-50 md:hidden">
               <div className="flex flex-col py-4">
-                {/* Header info trên mobile */}
-<div className="flex flex-col items-start px-6 py-4 mb-2 border-b border-wood-100 bg-beige-50">
-  <Logo className="h-12 w-auto mb-2" />
-  <p className="text-xs text-wood-600 leading-tight italic">
-    Tinh hoa thuốc Nam gia truyền dòng họ Đào
-  </p>
-</div>
+                {/* Header info trên mobile - CŨNG SỬA Ở ĐÂY */}
+                <div className="flex flex-col items-start px-6 py-4 mb-2 border-b border-wood-100 bg-beige-50">
+                  <a href="/" onClick={closeMenu} className="cursor-pointer">
+                    <Logo className="h-12 w-auto mb-2" />
+                    <p className="text-xs text-wood-600 leading-tight italic hover:text-nature-green-600 transition-colors duration-200">
+                      Tinh hoa thuốc Nam gia truyền dòng họ Đào
+                    </p>
+                  </a>
+                </div>
                 
                 {/* Navigation Items */}
                 <div className="px-4 space-y-1">
@@ -139,7 +142,7 @@ export default function Header() {
                     <span>Dịch Vụ</span>
                   </a>
                   <a 
-                    href="#trust" 
+                    href="#testimonials" 
                     onClick={closeMenu}
                     className="flex items-center gap-3 px-4 py-3.5 rounded-lg text-wood-700 hover:bg-nature-green-50 hover:text-nature-green-700 focus:outline-none focus:ring-2 focus:ring-nature-green-500 focus:ring-inset transition-colors duration-200 font-medium cursor-pointer"
                   >
