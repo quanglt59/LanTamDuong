@@ -29,10 +29,10 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
 
   // Load provinces from API
   useEffect(() => {
-    fetch('https://esgoo.net/api-tinh-thanh/1/0.htm')
+    fetch('https://provinces.open-api.vn/api/p/')
       .then(res => res.json())
       .then(data => {
-        if (data.error === 0) setProvincesList(data.data);
+        setProvincesList(data);
       })
       .catch(err => console.error('Error fetching provinces:', err));
   }, []);
@@ -85,10 +85,10 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     });
     
     if (cityId) {
-      fetch(`https://esgoo.net/api-tinh-thanh/2/${cityId}.htm`)
+      fetch(`https://provinces.open-api.vn/api/p/${cityId}?depth=2`)
         .then(res => res.json())
         .then(data => {
-          if (data.error === 0) setDistrictsList(data.data);
+          if (data.districts) setDistrictsList(data.districts);
           setWardsList([]);
         })
         .catch(err => console.error('Error fetching districts:', err));
@@ -108,10 +108,10 @@ export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpda
     });
     
     if (districtId) {
-      fetch(`https://esgoo.net/api-tinh-thanh/3/${districtId}.htm`)
+      fetch(`https://provinces.open-api.vn/api/d/${districtId}?depth=2`)
         .then(res => res.json())
         .then(data => {
-          if (data.error === 0) setWardsList(data.data);
+          if (data.wards) setWardsList(data.wards);
         })
         .catch(err => console.error('Error fetching wards:', err));
     } else {
@@ -129,14 +129,14 @@ const sendToGoogleSheets = async (data) => {
 
   try {
     // Lấy tên đầy đủ của địa chỉ
-    const cityObj = provincesList.find(c => c.id === data.city);
-    const cityName = cityObj?.full_name || '';
+        const cityObj = provincesList.find(c => c.code.toString() === data.city.toString());
+    const cityName = cityObj?.name || '';
     
-    const districtObj = districtsList.find(d => d.id === data.district);
-    const districtName = districtObj?.full_name || '';
+    const districtObj = districtsList.find(d => d.code.toString() === data.district.toString());
+    const districtName = districtObj?.name || '';
     
-    const wardObj = wardsList.find(w => w.id === data.ward);
-    const wardName = wardObj?.full_name || '';
+    const wardObj = wardsList.find(w => w.code.toString() === data.ward.toString());
+    const wardName = wardObj?.name || '';
 
     // Lấy tên vấn đề sức khỏe
     const healthIssueObj = healthIssues.find(i => i.value === data.healthIssue);
@@ -234,9 +234,9 @@ const sendToGoogleSheets = async (data) => {
       const sent = await sendToGoogleSheets(appointmentData);
       
       if (sent) {
-        const cityName = provincesList.find(c => c.id === formData.city)?.full_name || '';
-        const districtName = districtsList.find(d => d.id === formData.district)?.full_name || '';
-        const wardName = wardsList.find(w => w.id === formData.ward)?.full_name || '';
+                const cityName = provincesList.find(c => c.code.toString() === formData.city.toString())?.name || '';
+        const districtName = districtsList.find(d => d.code.toString() === formData.district.toString())?.name || '';
+        const wardName = wardsList.find(w => w.code.toString() === formData.ward.toString())?.name || '';
         const fullAddress = `${formData.street}, ${wardName}, ${districtName}, ${cityName}`.replace(/^, |, $/g, '');
 
         const healthIssueDisplay = formData.healthIssue === 'khac' 
@@ -467,8 +467,8 @@ const sendToGoogleSheets = async (data) => {
     >
       <option value="">Chọn Tỉnh/Thành phố</option>
       {provincesList.map((city) => (
-        <option key={city.id} value={city.id}>
-          {city.full_name}
+        <option key={city.code} value={city.code}>
+          {city.name}
         </option>
       ))}
     </select>
@@ -490,8 +490,8 @@ const sendToGoogleSheets = async (data) => {
       >
         <option value="">Chọn Quận/Huyện</option>
         {districtsList.map((district) => (
-          <option key={district.id} value={district.id}>
-            {district.full_name}
+          <option key={district.code} value={district.code}>
+            {district.name}
           </option>
         ))}
       </select>
@@ -516,8 +516,8 @@ const sendToGoogleSheets = async (data) => {
       >
         <option value="">Chọn Phường/Xã</option>
         {wardsList.map((ward) => (
-          <option key={ward.id} value={ward.id}>
-            {ward.full_name}
+          <option key={ward.code} value={ward.code}>
+            {ward.name}
           </option>
         ))}
       </select>
