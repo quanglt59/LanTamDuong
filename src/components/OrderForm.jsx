@@ -165,24 +165,16 @@ const sendToGoogleSheets = async (data) => {
     console.log('Đang gửi dữ liệu:', submissionData);
 
     // Gửi đến Google Apps Script Web App
-    const response = await fetch(googleSheetsUrl, {
+    await fetch(googleSheetsUrl, {
       method: 'POST',
-      mode: 'cors', // Quan trọng: dùng cors thay vì no-cors
+      mode: 'no-cors',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'text/plain',
       },
       body: JSON.stringify(submissionData)
     });
 
-    const result = await response.json();
-    console.log('Kết quả từ server:', result);
-
-    if (result.success) {
-      return true;
-    } else {
-      console.error('Server error:', result.error);
-      return false;
-    }
+    return true;
 
   } catch (error) {
     console.error('Lỗi gửi dữ liệu:', error);
