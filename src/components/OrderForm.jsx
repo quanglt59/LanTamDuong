@@ -249,6 +249,16 @@ const sendToGoogleSheets = async (data) => {
             ).join('\n')}\nTổng tiền: ${formatPrice(appointmentData.totalAmount)}đ`
           : '';
 
+        // Bắn sự kiện Lead lên Facebook Pixel
+        if (window.fbq) {
+          window.fbq('track', 'Lead', {
+            content_name: 'Đặt lịch khám',
+            content_category: healthIssueDisplay,
+            currency: 'VND',
+            value: appointmentData.totalAmount
+          });
+        }
+
         showSuccessNotification(
           `Đặt lịch thành công!\n\nThông tin lịch hẹn:\n• Họ tên: ${formData.name}\n• SĐT: ${formData.phone}\n• Địa chỉ: ${fullAddress}\n• Vấn đề: ${healthIssueDisplay}\n\nChúng tôi sẽ liên hệ xác nhận trong vòng 2 giờ làm việc.`
         );
