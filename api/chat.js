@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
   if (!apiKey) {
     return res.status(500).json({ error: 'API key not configured' });
   }
@@ -28,33 +28,37 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const contents = messages.map((m) => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }],
-  }));
+  const groqMessages = [
+    { role: 'system', content: SYSTEM_PROMPT },
+    ...messages.slice(-10).map((m) => ({
+      role: m.role === 'assistant' ? 'assistant' : 'user',
+      content: m.content,
+    })),
+  ];
 
   try {
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents,
-          generationConfig: { maxOutputTokens: 300, temperature: 0.7 },
-        }),
-      }
-    );
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'llama-3.1-8b-instant',
+        messages: groqMessages,
+        max_tokens: 300,
+        temperature: 0.7,
+      }),
+    });
 
-    if (!geminiRes.ok) {
-      const err = await geminiRes.text();
-      console.error('Gemini error:', geminiRes.status, err);
-      return res.status(geminiRes.status).json({ error: 'Gemini API error' });
+    if (!groqRes.ok) {
+      const err = await groqRes.text();
+      console.error('Groq error:', groqRes.status, err);
+      return res.status(groqRes.status).json({ error: 'AI service error' });
     }
 
-    const data = await geminiRes.json();
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Xin lỗi, tôi chưa thể trả lời lúc này.';
+    const data = await groqRes.json();
+    const text = data.choices?.[0]?.message?.content || 'Xin lỗi, tôi chưa thể trả lời lúc này.';
     return res.status(200).json({ text });
   } catch (err) {
     console.error('Handler error:', err);
