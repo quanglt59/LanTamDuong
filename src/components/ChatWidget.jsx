@@ -195,8 +195,15 @@ export default function ChatWidget() {
                     <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
                       msg.role === 'user'
                         ? 'bg-nature-green-600 text-white rounded-br-sm'
+                        : msg.role === 'staff'
+                        ? 'bg-amber-50 border border-amber-200 text-amber-900 rounded-bl-sm'
                         : 'bg-gray-100 text-wood-800 rounded-bl-sm'
                     }`}>
+                      {(msg.role === 'assistant' || msg.role === 'staff') && (
+                        <span className="text-[10px] font-semibold block mb-0.5 opacity-60">
+                          {msg.role === 'staff' ? '👨‍⚕️ Nhân viên Lan Tâm Đường' : 'AI Lan Tâm Đường'}
+                        </span>
+                      )}
                       {msg.content}
                     </div>
                   </div>

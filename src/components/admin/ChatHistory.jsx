@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, doc, getDoc, orderBy, query, getDocs } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function ChatHistory() {
+  const { userProfile } = useAuth();
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState(null);
   const [chatHistory, setChatHistory] = useState({});
   const [summaries, setSummaries] = useState({});
+  const [replyInputs, setReplyInputs] = useState({});
+  const [sendingReply, setSendingReply] = useState({});
   const [summarizing, setSummarizing] = useState({});
   const [search, setSearch] = useState('');
 
@@ -66,6 +70,23 @@ export default function ChatHistory() {
       setSummaries((prev) => ({ ...prev, [customer.id]: 'Không thể tóm tắt. Vui lòng thử lại.' }));
     } finally {
       setSummarizing((prev) => ({ ...prev, [customer.id]: false }));
+    }
+  };
+
+  const handleReply = async (customer) => {
+    const text = replyInputs[customer.id]?.trim();
+    if (!text) return;
+    setSendingReply((prev) => ({ ...prev, [customer.id]: true }));
+    try {
+      await addDoc(collection(db, 'chats', customer.id, 'messages'), {
+        role: 'staff',
+        content: text,
+        senderRole: userProfile?.role,
+        createdAt: new Date().toISOString(),
+      });
+      setReplyInputs((prev) => ({ ...prev, [customer.id]: '' }));
+    } finally {
+      setSendingReply((prev) => ({ ...prev, [customer.id]: false }));
     }
   };
 
@@ -199,16 +220,22 @@ export default function ChatHistory() {
                     ) : chatHistory[customer.id].length === 0 ? (
                       <p className="text-xs text-wood-400">Chưa có tin nhắn</p>
                     ) : (
-                      <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
+                      <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
                         {chatHistory[customer.id].map((msg) => (
                           <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                             <div className={`max-w-[80%] rounded-xl px-3 py-2 text-xs ${
                               msg.role === 'user'
                                 ? 'bg-nature-green-100 text-nature-green-900'
+                                : msg.role === 'staff'
+                                ? 'bg-amber-50 border border-amber-200 text-amber-900'
                                 : 'bg-white border border-gray-200 text-wood-700'
                             }`}>
                               <span className="font-semibold text-[10px] opacity-60 block mb-0.5">
-                                {msg.role === 'user' ? customer.name : 'AI Lan Tâm Đường'} • {formatDate(msg.createdAt)}
+                                {msg.role === 'user'
+                                  ? customer.name
+                                  : msg.role === 'staff'
+                                  ? `Nhân viên (${msg.senderRole})`
+                                  : 'AI'} • {formatDate(msg.createdAt)}
                               </span>
                               {msg.content}
                             </div>
@@ -216,6 +243,29 @@ export default function ChatHistory() {
                         ))}
                       </div>
                     )}
+
+                    {/* Hộp reply của nhân viên */}
+                    <div className="mt-3 pt-3 border-t border-gray-200">
+                      <p className="text-xs font-semibold text-wood-500 mb-2">Nhắn tin trực tiếp đến {customer.name}</p>
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={replyInputs[customer.id] || ''}
+                          onChange={(e) => setReplyInputs((prev) => ({ ...prev, [customer.id]: e.target.value }))}
+                          onKeyDown={(e) => e.key === 'Enter' && handleReply(customer)}
+                          placeholder="Nhập tin nhắn cho khách hàng..."
+                          className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-xs outline-none focus:ring-2 focus:ring-amber-400"
+                        />
+                        <button
+                          onClick={() => handleReply(customer)}
+                          disabled={sendingReply[customer.id] || !replyInputs[customer.id]?.trim()}
+                          className="px-3 py-2 bg-amber-500 text-white rounded-lg text-xs font-medium hover:bg-amber-600 disabled:opacity-40 transition-colors flex-shrink-0"
+                        >
+                          {sendingReply[customer.id] ? 'Đang gửi...' : 'Gửi'}
+                        </button>
+                      </div>
+                      <p className="text-[10px] text-wood-400 mt-1">Tin nhắn sẽ hiện trong cửa sổ chat của khách hàng</p>
+                    </div>
                   </div>
                 )}
               </div>

@@ -37,9 +37,13 @@ export default function CustomerRegister() {
   const validate = () => {
     if (!form.name.trim()) return 'Vui lòng nhập họ và tên.';
     if (!form.phone.trim()) return 'Vui lòng nhập số điện thoại.';
-    if (!/^[0-9]{9,11}$/.test(form.phone.replace(/\s/g, ''))) return 'Số điện thoại không hợp lệ.';
+    const phoneClean = form.phone.replace(/[\s.-]/g, '');
+    if (!/^(0[3|5|7|8|9])[0-9]{8}$/.test(phoneClean))
+      return 'Số điện thoại không đúng định dạng (VD: 0912 345 678).';
     if (!form.province) return 'Vui lòng chọn tỉnh/thành phố.';
     if (!form.email.trim()) return 'Vui lòng nhập email.';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
+      return 'Email không đúng định dạng (VD: ten@gmail.com).';
     if (!form.password) return 'Vui lòng nhập mật khẩu.';
     if (form.password.length < 6) return 'Mật khẩu phải có ít nhất 6 ký tự.';
     if (form.password !== form.confirmPassword) return 'Xác nhận mật khẩu không khớp.';
