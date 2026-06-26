@@ -15,22 +15,47 @@ export default function CustomerLogin() {
     setLoading(true);
     try {
       const cred = await signInWithEmailAndPassword(auth, email, password);
-      const customerDoc = await getDoc(doc(db, 'customers', cred.user.uid));
-      if (!customerDoc.exists()) {
-        await auth.signOut();
-        setError('Tài khoản không tồn tại. Vui lòng đăng ký.');
-        setLoading(false);
+      const uid = cred.user.uid;
+
+      // Kiểm tra admin/manager trước
+      const userDoc = await getDoc(doc(db, 'users', uid));
+      if (userDoc.exists()) {
+        const profile = userDoc.data();
+        if (profile.isLocked) {
+          await auth.signOut();
+          setError('Tài khoản đã bị khóa.');
+          setLoading(false);
+          return;
+        }
+        // Admin hoặc manager → vào dashboard
+        window.location.href = '/admin';
         return;
       }
-      if (customerDoc.data().isLocked) {
-        await auth.signOut();
-        setError('Tài khoản đã bị khóa. Vui lòng liên hệ Lan Tâm Đường để được hỗ trợ.');
-        setLoading(false);
+
+      // Kiểm tra khách hàng
+      const customerDoc = await getDoc(doc(db, 'customers', uid));
+      if (customerDoc.exists()) {
+        if (customerDoc.data().isLocked) {
+          await auth.signOut();
+          setError('Tài khoản đã bị khóa. Vui lòng liên hệ Lan Tâm Đường.');
+          setLoading(false);
+          return;
+        }
+        // Khách hàng → trang chủ
+        window.location.href = '/';
         return;
       }
-      window.location.href = '/';
+
+      // Không thuộc tập nào
+      await auth.signOut();
+      setError('Tài khoản không tồn tại. Vui lòng đăng ký.');
+      setLoading(false);
     } catch (err) {
-      if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found') {
+      if (
+        err.code === 'auth/invalid-credential' ||
+        err.code === 'auth/wrong-password' ||
+        err.code === 'auth/user-not-found'
+      ) {
         setError('Email hoặc mật khẩu không đúng.');
       } else {
         setError('Đã có lỗi xảy ra. Vui lòng thử lại.');
@@ -42,7 +67,6 @@ export default function CustomerLogin() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-nature-green-50 to-earth-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo */}
         <div className="text-center mb-8">
           <a href="/" className="inline-block">
             <h1 className="font-serif font-bold text-wood-900 text-2xl tracking-wide">LAN TÂM ĐƯỜNG</h1>
@@ -52,7 +76,7 @@ export default function CustomerLogin() {
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-xl font-semibold text-wood-900 mb-1">Đăng nhập</h2>
-          <p className="text-wood-500 text-sm mb-6">Đăng nhập để trò chuyện với AI tư vấn sức khỏe</p>
+          <p className="text-wood-500 text-sm mb-6">Dành cho khách hàng, quản lý và admin</p>
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg mb-4">

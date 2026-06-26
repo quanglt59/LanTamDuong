@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import AdminLogin from './components/admin/AdminLogin';
 import AdminLayout from './components/admin/AdminLayout';
 import AppointmentsList from './components/admin/AppointmentsList';
 import UpcomingAppointments from './components/admin/UpcomingAppointments';
@@ -22,7 +21,10 @@ function AdminContent() {
     );
   }
 
-  if (!currentUser) return <AdminLogin />;
+  if (!currentUser) {
+    window.location.href = '/dang-nhap';
+    return null;
+  }
 
   return (
     <AdminLayout currentPage={page} onNavigate={setPage}>
