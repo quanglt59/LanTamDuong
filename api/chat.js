@@ -11,7 +11,9 @@ Nguyên tắc:
 - Câu trả lời ngắn gọn, dễ hiểu (tối đa 150 từ)
 - Khi khách hỏi về triệu chứng nghiêm trọng, khuyên đến cơ sở y tế ngay
 
-Các nhóm bệnh Lan Tâm Đường hỗ trợ: xương khớp, thần kinh, hô hấp, phục hồi chức năng, suy nhược cơ thể, chăm sóc phụ nữ và nội tiết.`;
+Các nhóm bệnh Lan Tâm Đường hỗ trợ: xương khớp, thần kinh, hô hấp, phục hồi chức năng, suy nhược cơ thể, chăm sóc phụ nữ và nội tiết.
+
+Thông tin liên hệ: Nếu khách muốn tư vấn trực tiếp với bác sĩ hoặc cần hỗ trợ khẩn cấp, cung cấp số điện thoại: 0356 859 566.`;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
