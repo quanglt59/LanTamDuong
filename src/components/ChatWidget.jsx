@@ -3,49 +3,15 @@ import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, addDoc, query, orderBy, onSnapshot, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 
-const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
-
-const SYSTEM_PROMPT = `Bạn là chuyên gia tư vấn sức khỏe của Lan Tâm Đường - thương hiệu thuốc Nam gia truyền dòng họ Đào với hơn 300 năm kinh nghiệm.
-
-Nhiệm vụ:
-- Tư vấn về các vấn đề sức khỏe theo y học cổ truyền và thuốc Nam
-- Giới thiệu các sản phẩm/liệu pháp phù hợp của Lan Tâm Đường
-- Gợi ý khách đặt lịch khám trực tiếp khi cần thiết
-
-Nguyên tắc:
-- Luôn trả lời bằng tiếng Việt, thân thiện và chuyên nghiệp
-- Không chẩn đoán bệnh cụ thể thay bác sĩ
-- Câu trả lời ngắn gọn, dễ hiểu (tối đa 150 từ)
-- Khi khách hỏi về triệu chứng nghiêm trọng, khuyên đến cơ sở y tế ngay
-
-Các nhóm bệnh Lan Tâm Đường hỗ trợ: xương khớp, thần kinh, hô hấp, phục hồi chức năng, suy nhược cơ thể, chăm sóc phụ nữ và nội tiết.`;
-
 async function callGemini(messages) {
-  if (!GEMINI_API_KEY) throw new Error('Missing VITE_GEMINI_API_KEY');
-
-  const contents = messages.map((m) => ({
-    role: m.role === 'assistant' ? 'model' : 'user',
-    parts: [{ text: m.content }],
-  }));
-
-  const res = await fetch(GEMINI_URL, {
+  const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-      contents,
-      generationConfig: { maxOutputTokens: 300, temperature: 0.7 },
-    }),
+    body: JSON.stringify({ messages }),
   });
-
-  if (!res.ok) {
-    const errText = await res.text();
-    console.error('Gemini error', res.status, errText);
-    throw new Error(`Gemini ${res.status}: ${errText}`);
-  }
+  if (!res.ok) throw new Error(`Chat API error ${res.status}`);
   const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Xin lỗi, tôi chưa thể trả lời lúc này.';
+  return data.text;
 }
 
 export default function ChatWidget() {
