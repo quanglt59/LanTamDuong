@@ -7,8 +7,6 @@ export default function CustomerManagement() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [actionMsg, setActionMsg] = useState('');
-  const [expandedId, setExpandedId] = useState(null);
-  const [chatHistory, setChatHistory] = useState({});
 
   useEffect(() => {
     const q = query(collection(db, 'customers'), orderBy('createdAt', 'desc'));
@@ -19,22 +17,6 @@ export default function CustomerManagement() {
     return unsubscribe;
   }, []);
 
-  // Load chat khi mở rộng
-  useEffect(() => {
-    if (!expandedId) return;
-    const q = query(
-      collection(db, 'chats', expandedId, 'messages'),
-      orderBy('createdAt', 'asc')
-    );
-    const unsubscribe = onSnapshot(q, (snap) => {
-      setChatHistory((prev) => ({
-        ...prev,
-        [expandedId]: snap.docs.map((d) => ({ id: d.id, ...d.data() })),
-      }));
-    });
-    return unsubscribe;
-  }, [expandedId]);
-
   const showMessage = (msg) => {
     setActionMsg(msg);
     setTimeout(() => setActionMsg(''), 3000);
@@ -43,14 +25,14 @@ export default function CustomerManagement() {
   const handleToggleLock = async (customer) => {
     const newLocked = !customer.isLocked;
     await updateDoc(doc(db, 'customers', customer.id), { isLocked: newLocked });
-    showMessage(newLocked ? `Đã khóa tài khoản ${customer.email}` : `Đã mở khóa tài khoản ${customer.email}`);
+    showMessage(newLocked ? `Đã khóa: ${customer.email}` : `Đã mở khóa: ${customer.email}`);
   };
 
   const formatDate = (iso) => iso ? new Date(iso).toLocaleDateString('vi-VN') : '—';
 
   const filtered = customers.filter((c) => {
     const q = search.toLowerCase();
-    return c.name?.toLowerCase().includes(q) || c.email?.toLowerCase().includes(q);
+    return c.name?.toLowerCase().includes(q) || c.email?.toLowerCase().includes(q) || c.phone?.includes(q);
   });
 
   const activeCount = customers.filter((c) => !c.isLocked).length;
@@ -71,7 +53,7 @@ export default function CustomerManagement() {
     <div>
       <div className="mb-6">
         <h2 className="text-2xl font-bold text-wood-900">Quản lý khách hàng</h2>
-        <p className="text-wood-500 text-sm mt-1">Tài khoản đăng ký qua chat tư vấn AI</p>
+        <p className="text-wood-500 text-sm mt-1">Quản lý tài khoản đăng ký qua hệ thống chat AI</p>
       </div>
 
       {actionMsg && (
@@ -80,10 +62,9 @@ export default function CustomerManagement() {
         </div>
       )}
 
-      {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-white rounded-xl p-5 border border-gray-200">
-          <p className="text-sm text-wood-500">Tổng khách hàng</p>
+          <p className="text-sm text-wood-500">Tổng tài khoản</p>
           <p className="text-3xl font-bold text-wood-900 mt-1">{customers.length}</p>
         </div>
         <div className="bg-white rounded-xl p-5 border border-gray-200">
@@ -96,7 +77,6 @@ export default function CustomerManagement() {
         </div>
       </div>
 
-      {/* Search */}
       <div className="bg-white rounded-xl border border-gray-200">
         <div className="p-4 border-b border-gray-100 flex items-center gap-3">
           <svg className="w-5 h-5 text-wood-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,7 +84,7 @@ export default function CustomerManagement() {
           </svg>
           <input
             type="text"
-            placeholder="Tìm theo tên, email..."
+            placeholder="Tìm theo tên, email, số điện thoại..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 outline-none text-sm text-wood-800 placeholder-wood-400"
@@ -116,31 +96,47 @@ export default function CustomerManagement() {
             {search ? 'Không tìm thấy kết quả' : 'Chưa có khách hàng đăng ký'}
           </div>
         ) : (
-          <div>
-            {filtered.map((customer, index) => (
-              <div key={customer.id} className="border-b border-gray-50 last:border-0">
-                <div className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50">
-                  <div className="w-9 h-9 bg-nature-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-nature-green-700 font-semibold text-sm">
-                      {customer.name?.charAt(0)?.toUpperCase() || '?'}
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-gray-100 text-left text-xs text-wood-400 uppercase tracking-wide">
+                <th className="px-4 py-3 font-medium">Khách hàng</th>
+                <th className="px-4 py-3 font-medium">Liên hệ</th>
+                <th className="px-4 py-3 font-medium">Tỉnh/TP</th>
+                <th className="px-4 py-3 font-medium">Ngày đăng ký</th>
+                <th className="px-4 py-3 font-medium">Trạng thái</th>
+                <th className="px-4 py-3 font-medium">Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((customer) => (
+                <tr key={customer.id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50">
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-nature-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-nature-green-700 font-semibold text-xs">
+                          {customer.name?.charAt(0)?.toUpperCase() || '?'}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-wood-900">{customer.name || '—'}</p>
+                        <p className="text-wood-400 text-xs">{customer.gender || '—'}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-wood-600">
+                    <p>{customer.phone || '—'}</p>
+                    <p className="text-xs text-wood-400">{customer.email}</p>
+                  </td>
+                  <td className="px-4 py-3 text-wood-600">{customer.province || '—'}</td>
+                  <td className="px-4 py-3 text-wood-500 text-xs">{formatDate(customer.createdAt)}</td>
+                  <td className="px-4 py-3">
+                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                      customer.isLocked ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                    }`}>
+                      {customer.isLocked ? 'Bị khóa' : 'Hoạt động'}
                     </span>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-wood-900 text-sm">{customer.name || '—'}</p>
-                    <p className="text-wood-500 text-xs">{customer.email} • Đăng ký {formatDate(customer.createdAt)}</p>
-                  </div>
-                  <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 ${
-                    customer.isLocked ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
-                  }`}>
-                    {customer.isLocked ? 'Bị khóa' : 'Hoạt động'}
-                  </span>
-                  <div className="flex gap-2 flex-shrink-0">
-                    <button
-                      onClick={() => setExpandedId(expandedId === customer.id ? null : customer.id)}
-                      className="text-xs px-3 py-1.5 border border-gray-200 rounded-lg text-wood-600 hover:bg-gray-50"
-                    >
-                      {expandedId === customer.id ? 'Ẩn chat' : 'Xem chat'}
-                    </button>
+                  </td>
+                  <td className="px-4 py-3">
                     <button
                       onClick={() => handleToggleLock(customer)}
                       className={`text-xs px-3 py-1.5 rounded-lg border ${
@@ -151,43 +147,11 @@ export default function CustomerManagement() {
                     >
                       {customer.isLocked ? 'Mở khóa' : 'Khóa'}
                     </button>
-                  </div>
-                </div>
-
-                {/* Lịch sử chat */}
-                {expandedId === customer.id && (
-                  <div className="bg-gray-50 border-t border-gray-100 px-4 py-4">
-                    <p className="text-xs font-semibold text-wood-600 mb-3">Lịch sử tư vấn AI</p>
-                    {!chatHistory[customer.id] ? (
-                      <p className="text-xs text-wood-400">Đang tải...</p>
-                    ) : chatHistory[customer.id].length === 0 ? (
-                      <p className="text-xs text-wood-400">Chưa có cuộc trò chuyện nào</p>
-                    ) : (
-                      <div className="space-y-2 max-h-60 overflow-y-auto">
-                        {chatHistory[customer.id].map((msg) => (
-                          <div
-                            key={msg.id}
-                            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                          >
-                            <div className={`max-w-[80%] rounded-xl px-3 py-2 text-xs ${
-                              msg.role === 'user'
-                                ? 'bg-nature-green-100 text-nature-green-900'
-                                : 'bg-white border border-gray-200 text-wood-700'
-                            }`}>
-                              <span className="font-medium text-[10px] opacity-60 block mb-0.5">
-                                {msg.role === 'user' ? customer.name : 'AI Lan Tâm Đường'}
-                              </span>
-                              {msg.content}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

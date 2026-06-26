@@ -5,6 +5,7 @@ import AppointmentsList from './components/admin/AppointmentsList';
 import UpcomingAppointments from './components/admin/UpcomingAppointments';
 import UserManagement from './components/admin/UserManagement';
 import CustomerManagement from './components/admin/CustomerManagement';
+import ChatHistory from './components/admin/ChatHistory';
 
 function AdminContent() {
   const { currentUser, loading } = useAuth();
@@ -31,6 +32,7 @@ function AdminContent() {
       {page === 'upcoming' && <UpcomingAppointments />}
       {page === 'appointments' && <AppointmentsList />}
       {page === 'customers' && <CustomerManagement />}
+      {page === 'chat' && <ChatHistory />}
       {page === 'users' && <UserManagement />}
     </AdminLayout>
   );
