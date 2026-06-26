@@ -4,7 +4,7 @@ import { collection, addDoc, query, orderBy, onSnapshot, doc, getDoc } from 'fir
 import { auth, db } from '../lib/firebase';
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
 const SYSTEM_PROMPT = `Bạn là chuyên gia tư vấn sức khỏe của Lan Tâm Đường - thương hiệu thuốc Nam gia truyền dòng họ Đào với hơn 300 năm kinh nghiệm.
 
@@ -22,6 +22,8 @@ Nguyên tắc:
 Các nhóm bệnh Lan Tâm Đường hỗ trợ: xương khớp, thần kinh, hô hấp, phục hồi chức năng, suy nhược cơ thể, chăm sóc phụ nữ và nội tiết.`;
 
 async function callGemini(messages) {
+  if (!GEMINI_API_KEY) throw new Error('Missing VITE_GEMINI_API_KEY');
+
   const contents = messages.map((m) => ({
     role: m.role === 'assistant' ? 'model' : 'user',
     parts: [{ text: m.content }],
@@ -37,7 +39,11 @@ async function callGemini(messages) {
     }),
   });
 
-  if (!res.ok) throw new Error('Gemini API error');
+  if (!res.ok) {
+    const errText = await res.text();
+    console.error('Gemini error', res.status, errText);
+    throw new Error(`Gemini ${res.status}: ${errText}`);
+  }
   const data = await res.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text || 'Xin lỗi, tôi chưa thể trả lời lúc này.';
 }
@@ -94,7 +100,8 @@ export default function ChatWidget() {
       await addDoc(collection(db, 'chats', user.uid, 'messages'), {
         role: 'assistant', content: reply, createdAt: new Date().toISOString(),
       });
-    } catch {
+    } catch (err) {
+      console.error('Chat error:', err);
       await addDoc(collection(db, 'chats', user.uid, 'messages'), {
         role: 'assistant', content: 'Xin lỗi, tôi đang gặp sự cố. Vui lòng thử lại sau.', createdAt: new Date().toISOString(),
       });
