@@ -1,22 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  updateProfile,
-} from 'firebase/auth';
-import {
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  onSnapshot,
-  doc,
-  setDoc,
-  getDoc,
-  serverTimestamp,
-} from 'firebase/firestore';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { collection, addDoc, query, orderBy, onSnapshot, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 
 const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
@@ -60,35 +44,21 @@ async function callGemini(messages) {
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState('login'); // 'login' | 'register'
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
-
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
-  const [authError, setAuthError] = useState('');
-  const [authSubmitting, setAuthSubmitting] = useState(false);
-
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
-
   const messagesEndRef = useRef(null);
 
-  // Theo dõi auth state (chỉ dành cho customer)
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const customerDoc = await getDoc(doc(db, 'customers', firebaseUser.uid));
-        if (customerDoc.exists()) {
-          const data = customerDoc.data();
-          if (data.isLocked) {
-            await signOut(auth);
-            setUser(null);
-          } else {
-            setUser({ uid: firebaseUser.uid, email: firebaseUser.email, name: data.name });
-          }
+        if (customerDoc.exists() && !customerDoc.data().isLocked) {
+          setUser({ uid: firebaseUser.uid, ...customerDoc.data() });
         } else {
-          // Không phải customer (có thể là admin đang test) → không set user
+          await signOut(auth);
           setUser(null);
         }
       } else {
@@ -99,80 +69,34 @@ export default function ChatWidget() {
     return unsubscribe;
   }, []);
 
-  // Load lịch sử chat
   useEffect(() => {
     if (!user) return;
-    const q = query(
-      collection(db, 'chats', user.uid, 'messages'),
-      orderBy('createdAt', 'asc')
-    );
+    const q = query(collection(db, 'chats', user.uid, 'messages'), orderBy('createdAt', 'asc'));
     const unsubscribe = onSnapshot(q, (snap) => {
       setMessages(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     });
     return unsubscribe;
   }, [user]);
 
-  // Auto scroll xuống tin mới nhất
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (open) messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, open]);
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-    setAuthSubmitting(true);
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, form.email, form.password);
-      await updateProfile(cred.user, { displayName: form.name });
-      await setDoc(doc(db, 'customers', cred.user.uid), {
-        name: form.name,
-        email: form.email,
-        createdAt: new Date().toISOString(),
-        isLocked: false,
-      });
-    } catch (err) {
-      if (err.code === 'auth/email-already-in-use') setAuthError('Email này đã được đăng ký');
-      else if (err.code === 'auth/weak-password') setAuthError('Mật khẩu phải có ít nhất 6 ký tự');
-      else setAuthError('Có lỗi xảy ra, vui lòng thử lại');
-    } finally {
-      setAuthSubmitting(false);
-    }
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setAuthError('');
-    setAuthSubmitting(true);
-    try {
-      await signInWithEmailAndPassword(auth, form.email, form.password);
-    } catch {
-      setAuthError('Email hoặc mật khẩu không đúng');
-    } finally {
-      setAuthSubmitting(false);
-    }
-  };
 
   const handleSend = async () => {
     if (!input.trim() || sending) return;
     const userMsg = { role: 'user', content: input.trim(), createdAt: new Date().toISOString() };
     setInput('');
     setSending(true);
-
     await addDoc(collection(db, 'chats', user.uid, 'messages'), userMsg);
-
     try {
-      const history = [...messages, userMsg].slice(-10); // giữ 10 tin gần nhất
+      const history = [...messages, userMsg].slice(-10);
       const reply = await callGemini(history);
       await addDoc(collection(db, 'chats', user.uid, 'messages'), {
-        role: 'assistant',
-        content: reply,
-        createdAt: new Date().toISOString(),
+        role: 'assistant', content: reply, createdAt: new Date().toISOString(),
       });
     } catch {
       await addDoc(collection(db, 'chats', user.uid, 'messages'), {
-        role: 'assistant',
-        content: 'Xin lỗi, tôi đang gặp sự cố. Vui lòng thử lại sau.',
-        createdAt: new Date().toISOString(),
+        role: 'assistant', content: 'Xin lỗi, tôi đang gặp sự cố. Vui lòng thử lại sau.', createdAt: new Date().toISOString(),
       });
     } finally {
       setSending(false);
@@ -180,10 +104,7 @@ export default function ChatWidget() {
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
 
   return (
@@ -205,27 +126,29 @@ export default function ChatWidget() {
         )}
       </button>
 
-      {/* Popup chat */}
       {open && (
-        <div className="fixed bottom-24 right-6 z-40 w-[370px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
-          style={{ height: '520px' }}>
+        <div className="fixed bottom-24 right-6 z-40 w-[370px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style={{ height: '520px' }}>
           {/* Header */}
-          <div className="bg-nature-green-600 px-4 py-3 flex items-center gap-3">
+          <div className="bg-nature-green-600 px-4 py-3 flex items-center gap-3 flex-shrink-0">
             <div className="w-9 h-9 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
               <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white font-semibold text-sm">Tư vấn sức khỏe AI</p>
-              <p className="text-white/70 text-xs">Lan Tâm Đường • Thuốc Nam gia truyền</p>
+              {authLoading ? (
+                <p className="text-white font-semibold text-sm">Đang tải...</p>
+              ) : user ? (
+                <>
+                  <p className="text-white font-semibold text-sm">Xin chào, {user.name}!</p>
+                  <p className="text-white/70 text-xs">AI tư vấn sức khỏe Lan Tâm Đường</p>
+                </>
+              ) : (
+                <p className="text-white font-semibold text-sm">Tư vấn sức khỏe AI</p>
+              )}
             </div>
             {user && (
-              <button
-                onClick={() => signOut(auth)}
-                className="text-white/70 hover:text-white text-xs"
-                title="Đăng xuất"
-              >
+              <button onClick={() => signOut(auth)} className="text-white/70 hover:text-white" title="Đăng xuất">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
@@ -241,106 +164,55 @@ export default function ChatWidget() {
               </svg>
             </div>
           ) : !user ? (
-            /* Form đăng nhập / đăng ký */
-            <div className="flex-1 flex flex-col overflow-y-auto">
-              <div className="p-5 flex-1">
-                <p className="text-sm text-wood-600 mb-4 text-center">
-                  Đăng nhập để bắt đầu tư vấn sức khỏe miễn phí với AI của Lan Tâm Đường
-                </p>
-
-                {/* Tab */}
-                <div className="flex bg-gray-100 rounded-lg p-1 mb-4">
-                  <button
-                    onClick={() => { setTab('login'); setAuthError(''); }}
-                    className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${tab === 'login' ? 'bg-white text-wood-900 shadow-sm' : 'text-wood-500'}`}
-                  >
-                    Đăng nhập
-                  </button>
-                  <button
-                    onClick={() => { setTab('register'); setAuthError(''); }}
-                    className={`flex-1 py-1.5 text-sm font-medium rounded-md transition-all ${tab === 'register' ? 'bg-white text-wood-900 shadow-sm' : 'text-wood-500'}`}
-                  >
-                    Đăng ký
-                  </button>
-                </div>
-
-                <form onSubmit={tab === 'login' ? handleLogin : handleRegister} className="space-y-3">
-                  {tab === 'register' && (
-                    <input
-                      type="text"
-                      required
-                      placeholder="Họ và tên"
-                      value={form.name}
-                      onChange={(e) => setForm({ ...form, name: e.target.value })}
-                      className="w-full px-3 py-2.5 border border-wood-200 rounded-lg text-sm focus:ring-2 focus:ring-nature-green-500 outline-none"
-                    />
-                  )}
-                  <input
-                    type="email"
-                    required
-                    placeholder="Email"
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    className="w-full px-3 py-2.5 border border-wood-200 rounded-lg text-sm focus:ring-2 focus:ring-nature-green-500 outline-none"
-                  />
-                  <input
-                    type="password"
-                    required
-                    placeholder="Mật khẩu (tối thiểu 6 ký tự)"
-                    value={form.password}
-                    onChange={(e) => setForm({ ...form, password: e.target.value })}
-                    className="w-full px-3 py-2.5 border border-wood-200 rounded-lg text-sm focus:ring-2 focus:ring-nature-green-500 outline-none"
-                  />
-                  {authError && (
-                    <p className="text-red-600 text-xs">{authError}</p>
-                  )}
-                  <button
-                    type="submit"
-                    disabled={authSubmitting}
-                    className="w-full bg-nature-green-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-nature-green-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-                  >
-                    {authSubmitting ? (
-                      <>
-                        <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
-                        Đang xử lý...
-                      </>
-                    ) : tab === 'login' ? 'Đăng nhập' : 'Đăng ký'}
-                  </button>
-                </form>
+            /* Chưa đăng nhập */
+            <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+              <div className="w-16 h-16 bg-nature-green-50 rounded-full flex items-center justify-center mb-4">
+                <svg className="w-8 h-8 text-nature-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-wood-900 mb-2">Bạn chưa đăng nhập</h3>
+              <p className="text-sm text-wood-500 mb-6">
+                Vui lòng đăng nhập để trò chuyện cùng AI tư vấn sức khỏe của Lan Tâm Đường
+              </p>
+              <div className="flex flex-col gap-2 w-full">
+                <a
+                  href="/dang-nhap"
+                  className="w-full bg-nature-green-600 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-nature-green-700 transition-colors text-center"
+                >
+                  Đăng nhập
+                </a>
+                <a
+                  href="/dang-ky"
+                  className="w-full border border-nature-green-300 text-nature-green-700 py-2.5 rounded-lg text-sm font-medium hover:bg-nature-green-50 transition-colors text-center"
+                >
+                  Đăng ký tài khoản mới
+                </a>
               </div>
             </div>
           ) : (
-            /* Giao diện chat */
+            /* Đã đăng nhập - Chat */
             <>
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.length === 0 && (
                   <div className="text-center py-6">
-                    <p className="text-wood-500 text-sm">Xin chào <strong>{user.name}</strong>!</p>
-                    <p className="text-wood-400 text-xs mt-1">Hãy đặt câu hỏi về sức khỏe để tôi tư vấn nhé.</p>
+                    <p className="text-wood-400 text-sm">Hãy đặt câu hỏi về sức khỏe để tôi tư vấn nhé!</p>
                   </div>
                 )}
                 {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
-                        msg.role === 'user'
-                          ? 'bg-nature-green-600 text-white rounded-br-sm'
-                          : 'bg-gray-100 text-wood-800 rounded-bl-sm'
-                      }`}
-                    >
+                  <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                    <div className={`max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
+                      msg.role === 'user'
+                        ? 'bg-nature-green-600 text-white rounded-br-sm'
+                        : 'bg-gray-100 text-wood-800 rounded-bl-sm'
+                    }`}>
                       {msg.content}
                     </div>
                   </div>
                 ))}
                 {sending && (
                   <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-2.5">
+                    <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
                       <div className="flex gap-1">
                         <span className="w-2 h-2 bg-wood-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                         <span className="w-2 h-2 bg-wood-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -352,8 +224,7 @@ export default function ChatWidget() {
                 <div ref={messagesEndRef} />
               </div>
 
-              {/* Input */}
-              <div className="p-3 border-t border-gray-100">
+              <div className="p-3 border-t border-gray-100 flex-shrink-0">
                 <div className="flex gap-2 items-end">
                   <textarea
                     rows={1}
@@ -361,8 +232,8 @@ export default function ChatWidget() {
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder="Nhập câu hỏi sức khỏe..."
-                    className="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-nature-green-500 resize-none max-h-24 overflow-y-auto"
-                    style={{ minHeight: '38px' }}
+                    className="flex-1 px-3 py-2 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-nature-green-500 resize-none"
+                    style={{ minHeight: '38px', maxHeight: '80px' }}
                   />
                   <button
                     onClick={handleSend}
@@ -374,7 +245,7 @@ export default function ChatWidget() {
                     </svg>
                   </button>
                 </div>
-                <p className="text-xs text-wood-400 mt-1.5 text-center">Enter để gửi • AI tư vấn sức khỏe thuốc Nam</p>
+                <p className="text-xs text-wood-400 mt-1.5 text-center">Enter để gửi</p>
               </div>
             </>
           )}
