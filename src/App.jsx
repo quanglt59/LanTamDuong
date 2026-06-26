@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import ShoppingCart from './components/ShoppingCart';
 import CustomBasketBadge from './components/CustomBasketBadge';
 import FloatingContacts from './components/FloatingContacts';
+import ChatWidget from './components/ChatWidget';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -146,6 +147,7 @@ function App() {
         onClose={() => setIsCartOpen(false)}
       />
       <FloatingContacts />
+      <ChatWidget />
     </div>
   );
 }

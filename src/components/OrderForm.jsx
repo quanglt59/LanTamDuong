@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 export default function OrderForm({ customBasketItems = [], onRemoveItem, onUpdateQuantity, selectedProduct = '', onSelectedProductChange }) {
   const [formData, setFormData] = useState({
@@ -223,6 +225,27 @@ const sendToGoogleSheets = async (data) => {
         totalAmount: customBasketItems?.reduce((sum, item) => sum + (item.price * item.quantity), 0) || 0
       };
       
+      // Lưu vào Firestore
+      const cityName = provincesList.find(c => c.code.toString() === appointmentData.city.toString())?.name || '';
+      const districtName = districtsList.find(d => d.code.toString() === appointmentData.district.toString())?.name || '';
+      const wardName = wardsList.find(w => w.code.toString() === appointmentData.ward.toString())?.name || '';
+      const healthIssueLabel = healthIssues.find(i => i.value === appointmentData.healthIssue)?.label || '';
+
+      await addDoc(collection(db, 'appointments'), {
+        fullName: appointmentData.name,
+        phone: appointmentData.phone,
+        email: appointmentData.email || '',
+        fullAddress: `${appointmentData.street}, ${wardName}, ${districtName}, ${cityName}`.replace(/^, |, $/g, ''),
+        healthIssue: healthIssueLabel,
+        healthIssueOther: appointmentData.healthIssueOther || '',
+        notes: appointmentData.message || '',
+        products: appointmentData.products || '',
+        totalAmount: appointmentData.totalAmount || 0,
+        appointmentDate: appointmentData.appointmentDate || '',
+        appointmentTime: appointmentData.appointmentTime || '',
+        createdAt: new Date().toISOString(),
+      });
+
       const sent = await sendToGoogleSheets(appointmentData);
       
       if (sent) {
