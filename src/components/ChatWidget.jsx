@@ -83,21 +83,39 @@ export default function ChatWidget() {
   return (
     <>
       {/* Nút nổi */}
-      <button
-        onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 bg-nature-green-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-nature-green-700 transition-all hover:scale-110"
-        aria-label="Chat tư vấn sức khỏe"
-      >
-        {open ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {!open && (
+        <div className="fixed bottom-6 right-6 z-40">
+          {/* Vòng pulse */}
+          <span className="absolute inset-0 rounded-full bg-nature-green-400 opacity-40 animate-ping" />
+          <button
+            onClick={() => setOpen(true)}
+            className="relative flex items-center gap-2.5 bg-gradient-to-br from-nature-green-500 to-nature-green-700 text-white pl-4 pr-5 py-3 rounded-full shadow-2xl hover:shadow-nature-green-400/40 hover:scale-105 transition-all duration-200"
+            aria-label="Chat tư vấn sức khỏe"
+          >
+            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+              </svg>
+            </div>
+            <div className="text-left leading-tight">
+              <p className="text-xs font-semibold tracking-wide">Chat AI miễn phí</p>
+              <p className="text-[10px] text-white/75">Tư vấn sức khỏe 24/7</p>
+            </div>
+          </button>
+        </div>
+      )}
+
+      {open && (
+        <button
+          onClick={() => setOpen(false)}
+          className="fixed bottom-6 right-6 z-40 w-12 h-12 bg-nature-green-600 text-white rounded-full shadow-xl flex items-center justify-center hover:bg-nature-green-700 transition-all"
+          aria-label="Đóng chat"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-        )}
-      </button>
+        </button>
+      )}
 
       {open && (
         <div className="fixed bottom-24 right-6 z-40 w-[370px] bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden" style={{ height: '520px' }}>
