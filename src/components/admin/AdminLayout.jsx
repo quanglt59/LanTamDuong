@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 
 export default function AdminLayout({ currentPage, onNavigate, children }) {
   const { currentUser, userProfile, logout } = useAuth();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const navItems = [
     {
@@ -49,8 +51,7 @@ export default function AdminLayout({ currentPage, onNavigate, children }) {
         </svg>
       ),
     },
-    ...(userProfile?.role === 'admin' ? [
-    {
+    ...(userProfile?.role === 'admin' ? [{
       key: 'users',
       label: 'Quản lý tài khoản',
       icon: (
@@ -61,27 +62,53 @@ export default function AdminLayout({ currentPage, onNavigate, children }) {
     }] : []),
   ];
 
+  const currentLabel = navItems.find((n) => n.key === currentPage)?.label || 'Dashboard';
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Overlay tối phía sau sidebar khi mở trên mobile */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-20 lg:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col fixed h-full">
-        <div className="p-6 border-b border-gray-100">
-          <h1 className="font-serif font-bold text-wood-900 text-lg">LAN TÂM ĐƯỜNG</h1>
-          <p className="text-xs text-wood-500 mt-0.5">Hệ thống quản trị</p>
+      <aside
+        className={`w-64 bg-white border-r border-gray-200 flex flex-col fixed h-full z-30 transition-transform duration-200 ease-in-out ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {/* Logo + nút đóng */}
+        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between flex-shrink-0">
+          <div className="min-w-0">
+            <h1 className="font-serif font-bold text-wood-900 text-base leading-tight">LAN TÂM ĐƯỜNG</h1>
+            <p className="text-xs text-wood-500 mt-0.5">Hệ thống quản trị</p>
+          </div>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="w-8 h-8 flex items-center justify-center text-wood-400 hover:text-wood-700 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0 ml-2"
+            title="Ẩn menu"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+            </svg>
+          </button>
         </div>
 
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
           {navItems.map((item) => (
             <button
               key={item.key}
-              onClick={() => onNavigate(item.key)}
+              onClick={() => { onNavigate(item.key); setSidebarOpen(false); }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left ${
                 currentPage === item.key
                   ? 'bg-nature-green-50 text-nature-green-700'
                   : 'text-wood-600 hover:bg-gray-50 hover:text-wood-900'
               }`}
             >
-              <span className={currentPage === item.key ? 'text-nature-green-600' : 'text-wood-400'}>
+              <span className={`flex-shrink-0 ${currentPage === item.key ? 'text-nature-green-600' : 'text-wood-400'}`}>
                 {item.icon}
               </span>
               {item.label}
@@ -89,7 +116,7 @@ export default function AdminLayout({ currentPage, onNavigate, children }) {
           ))}
         </nav>
 
-        <div className="p-4 border-t border-gray-100">
+        <div className="p-4 border-t border-gray-100 flex-shrink-0">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-9 h-9 bg-nature-green-100 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-nature-green-700 font-semibold text-sm">
@@ -120,8 +147,24 @@ export default function AdminLayout({ currentPage, onNavigate, children }) {
       </aside>
 
       {/* Main content */}
-      <main className="ml-64 flex-1 p-8">
-        {children}
+      <main className={`flex-1 min-w-0 transition-all duration-200 ease-in-out ${sidebarOpen ? 'lg:ml-64' : 'ml-0'}`}>
+        {/* Thanh top bar — luôn hiển thị, có hamburger */}
+        <div className="sticky top-0 z-10 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={() => setSidebarOpen((v) => !v)}
+            className="w-9 h-9 flex items-center justify-center text-wood-500 hover:text-wood-900 hover:bg-gray-100 rounded-lg transition-colors flex-shrink-0"
+            title={sidebarOpen ? 'Ẩn menu' : 'Hiện menu'}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <span className="text-sm font-semibold text-wood-800 truncate">{currentLabel}</span>
+        </div>
+
+        <div className="p-4 md:p-8">
+          {children}
+        </div>
       </main>
     </div>
   );

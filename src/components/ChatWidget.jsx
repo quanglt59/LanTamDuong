@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { collection, addDoc, query, orderBy, onSnapshot, doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '../lib/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { auth, db, storage } from '../lib/firebase';
 
-async function callGemini(messages) {
+async function callGroq(messages) {
   const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -21,7 +22,9 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
   const messagesEndRef = useRef(null);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
@@ -62,7 +65,7 @@ export default function ChatWidget() {
     await addDoc(collection(db, 'chats', user.uid, 'messages'), userMsg);
     try {
       const history = [...messages, userMsg].slice(-10);
-      const reply = await callGemini(history);
+      const reply = await callGroq(history);
       await addDoc(collection(db, 'chats', user.uid, 'messages'), {
         role: 'assistant', content: reply, createdAt: new Date().toISOString(),
       });
@@ -76,16 +79,44 @@ export default function ChatWidget() {
     }
   };
 
+  const handleImageSelect = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file || !user) return;
+    e.target.value = '';
+    setImageUploading(true);
+    try {
+      const storageRef = ref(storage, `chat-images/${user.uid}/${Date.now()}-${file.name}`);
+      await uploadBytes(storageRef, file);
+      const imageUrl = await getDownloadURL(storageRef);
+      await addDoc(collection(db, 'chats', user.uid, 'messages'), {
+        role: 'user',
+        type: 'image',
+        imageUrl,
+        createdAt: new Date().toISOString(),
+      });
+      await addDoc(collection(db, 'chats', user.uid, 'messages'), {
+        role: 'assistant',
+        content: 'Tôi đã nhận được hình ảnh của bạn. Nhân viên tư vấn sẽ xem xét và phản hồi sớm nhất có thể. Để được hỗ trợ khẩn cấp, vui lòng gọi: 0356 859 566',
+        createdAt: new Date().toISOString(),
+      });
+    } catch (err) {
+      console.error('Image upload error:', err);
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); }
   };
+
+  const isLoading = sending || imageUploading;
 
   return (
     <>
       {/* Nút nổi */}
       {!open && (
         <div className="fixed bottom-6 right-6 z-40">
-          {/* Vòng pulse */}
           <span className="absolute inset-0 rounded-full bg-nature-green-400 opacity-40 animate-ping" />
           <button
             onClick={() => setOpen(true)}
@@ -187,7 +218,7 @@ export default function ChatWidget() {
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.length === 0 && (
                   <div className="text-center py-6">
-                    <p className="text-wood-400 text-sm">Hãy đặt câu hỏi về sức khỏe để tôi tư vấn nhé!</p>
+                    <p className="text-wood-400 text-sm">Hãy đặt câu hỏi về sức khỏe hoặc gửi ảnh để tôi tư vấn nhé!</p>
                   </div>
                 )}
                 {messages.map((msg) => (
@@ -204,11 +235,20 @@ export default function ChatWidget() {
                           {msg.role === 'staff' ? '👨‍⚕️ Nhân viên Lan Tâm Đường' : 'AI Lan Tâm Đường'}
                         </span>
                       )}
-                      {msg.content}
+                      {msg.type === 'image' ? (
+                        <img
+                          src={msg.imageUrl}
+                          alt="Hình ảnh"
+                          className="max-w-full rounded-lg max-h-48 object-contain cursor-pointer"
+                          onClick={() => window.open(msg.imageUrl, '_blank')}
+                        />
+                      ) : (
+                        msg.content
+                      )}
                     </div>
                   </div>
                 ))}
-                {sending && (
+                {isLoading && (
                   <div className="flex justify-start">
                     <div className="bg-gray-100 rounded-2xl rounded-bl-sm px-4 py-3">
                       <div className="flex gap-1">
@@ -223,7 +263,31 @@ export default function ChatWidget() {
               </div>
 
               <div className="p-3 border-t border-gray-100 flex-shrink-0">
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageSelect}
+                />
                 <div className="flex gap-2 items-end">
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={isLoading}
+                    className="w-9 h-9 flex items-center justify-center text-wood-400 hover:text-nature-green-600 hover:bg-nature-green-50 rounded-xl transition-colors flex-shrink-0 disabled:opacity-40"
+                    title="Gửi hình ảnh"
+                  >
+                    {imageUploading ? (
+                      <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    )}
+                  </button>
                   <textarea
                     rows={1}
                     value={input}
@@ -235,7 +299,7 @@ export default function ChatWidget() {
                   />
                   <button
                     onClick={handleSend}
-                    disabled={!input.trim() || sending}
+                    disabled={!input.trim() || isLoading}
                     className="w-9 h-9 bg-nature-green-600 text-white rounded-xl flex items-center justify-center hover:bg-nature-green-700 transition-colors disabled:opacity-40 flex-shrink-0"
                   >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -243,7 +307,7 @@ export default function ChatWidget() {
                     </svg>
                   </button>
                 </div>
-                <p className="text-xs text-wood-400 mt-1.5 text-center">Enter để gửi</p>
+                <p className="text-xs text-wood-400 mt-1.5 text-center">Enter để gửi • 🖼️ Gửi ảnh để bác sĩ xem</p>
               </div>
             </>
           )}

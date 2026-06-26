@@ -76,7 +76,6 @@ export default function CustomerLogin() {
 
         <div className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-xl font-semibold text-wood-900 mb-1">Đăng nhập</h2>
-          <p className="text-wood-500 text-sm mb-6">Dành cho khách hàng, quản lý và admin</p>
 
           {error && (
             <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-lg mb-4">
