@@ -110,7 +110,7 @@ export default function AdminLayout({ currentPage, onNavigate, children }) {
           {navItems.map((item) => (
             <button
               key={item.key}
-              onClick={() => { onNavigate(item.key); setSidebarOpen(false); }}
+              onClick={() => onNavigate(item.key)}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors text-left ${
                 currentPage === item.key
                   ? 'bg-nature-green-50 text-nature-green-700'
