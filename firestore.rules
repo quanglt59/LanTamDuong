@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // UID admin gốc — trùng với VITE_ADMIN_UID trong .env, dùng để tự tạo hồ sơ admin lần đầu đăng nhập
+    function isRootAdminUid() {
+      return request.auth.uid == 'XaMuLZw1zxWX1zZXTUJpGX2Kaku2';
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isStaff() {
+      return isSignedIn() && userDoc().data.role in ['admin', 'manager'];
+    }
+
+    function isAdmin() {
+      return isSignedIn() && userDoc().data.role == 'admin';
+    }
+
+    // Hồ sơ admin/manager, docId = uid
+    match /users/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isStaff());
+      allow create: if isAdmin() || (isSignedIn() && request.auth.uid == userId && isRootAdminUid());
+      allow update: if isAdmin() || (isSignedIn() && request.auth.uid == userId);
+      allow delete: if isAdmin();
+    }
+
+    // Hồ sơ khách hàng, docId = uid
+    match /customers/{customerId} {
+      allow read: if isSignedIn() && (request.auth.uid == customerId || isStaff());
+      allow create: if isSignedIn() && request.auth.uid == customerId;
+      allow update: if isSignedIn() && (request.auth.uid == customerId || isStaff());
+      allow delete: if isAdmin();
+    }
+
+    // Chat AI/khách hàng — mỗi khách chỉ thấy chat của mình, staff thấy tất cả
+    match /chats/{customerId}/messages/{messageId} {
+      allow read, write: if isSignedIn() && (request.auth.uid == customerId || isStaff());
+    }
+
+    // Đặt lịch hẹn — form công khai (chưa đăng nhập) được tạo mới, chỉ staff quản lý
+    match /appointments/{appointmentId} {
+      allow create: if true;
+      allow read, update: if isStaff();
+      allow delete: if isAdmin();
+    }
+
+    // Chat nội bộ admin <-> manager, conversationId = "{uid1}__{uid2}" (đã sort)
+    match /staffChats/{conversationId}/messages/{messageId} {
+      allow read, write: if isStaff() && request.auth.uid in conversationId.split('__');
+    }
+
+    // Nội dung trang chủ (ảnh banner, logo, ...) — public đọc để hiển thị, chỉ admin sửa
+    match /siteContent/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

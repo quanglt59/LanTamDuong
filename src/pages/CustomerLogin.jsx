@@ -51,6 +51,7 @@ export default function CustomerLogin() {
       setError('Tài khoản không tồn tại. Vui lòng đăng ký.');
       setLoading(false);
     } catch (err) {
+      console.error('Lỗi đăng nhập:', err.code, err.message);
       if (
         err.code === 'auth/invalid-credential' ||
         err.code === 'auth/wrong-password' ||

@@ -1,4 +1,8 @@
+import { useSiteImage } from '../contexts/SiteContentContext';
+
 export default function BrandStory() {
+  const brandImg = useSiteImage('brandStory', '/images/anh1_aoBlue.jpg');
+
   return (
     <section id="brand-story" className="relative py-12 sm:py-16 md:py-20 overflow-hidden">
       {/* Background Gradient */}
@@ -30,8 +34,8 @@ export default function BrandStory() {
           {/* Ảnh Ông chú bên trái */}
           <div className="order-2 lg:order-1">
             <div className="relative w-full aspect-[3/4] max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden shadow-xl">
-  <img 
-    src="/images/anh1_aoBlue.jpg" 
+  <img
+    src={brandImg}
     className="w-full h-full object-cover"
     loading="lazy"
   />

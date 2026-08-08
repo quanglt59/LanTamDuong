@@ -1,56 +1,70 @@
 import { useState } from 'react';
+import { useSiteImage } from '../contexts/SiteContentContext';
 
 export default function CenterModeImageCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+  const showcase1 = useSiteImage('showcase1', '/images/phongkham7.jpg');
+  const showcase2 = useSiteImage('showcase2', '/images/phongkham1.jpg');
+  const showcase3 = useSiteImage('showcase3', '/images/phongkham6.jpg');
+  const showcase4 = useSiteImage('showcase4', '/images/phongkham3.jpg');
+  const showcase5 = useSiteImage('showcase5', '/images/phongkham4.jpg');
+  const video1 = useSiteImage('showcaseVideo1', '/videos/hienthivd1.mp4');
+  const thumb1 = useSiteImage('showcaseVideoThumb1', '/images/thumbnail-video1.jpg');
+  const video2 = useSiteImage('showcaseVideo2', '/videos/hienthivd2.mp4');
+  const thumb2 = useSiteImage('showcaseVideoThumb2', '/images/thumbnail-video2.jpg');
+  const video3 = useSiteImage('showcaseVideo3', '/videos/hienthivd3.mp4');
+  const thumb3 = useSiteImage('showcaseVideoThumb3', '/images/thumbnail-video3.jpg');
+  const video4 = useSiteImage('showcaseVideo4', '/videos/hienthivd4.mp4');
+  const thumb4 = useSiteImage('showcaseVideoThumb4', '/images/thumbnail-video4.jpg');
+
   const images = [
     {
       id: 1,
-      src: "/images/phongkham7.jpg",
+      src: showcase1,
       type: 'image'
     },
     {
       id: 2,
-      src: "/videos/hienthivd1.mp4",
-      thumbnail: "/images/thumbnail-video1.jpg",
+      src: video1,
+      thumbnail: thumb1,
       type: 'video'
     },
     {
       id: 2,
-      src: "/images/phongkham1.jpg",
+      src: showcase2,
       type: 'image'
     },
     {
-      id: 2, 
-      src: "/videos/hienthivd2.mp4",
-      thumbnail: "/images/thumbnail-video2.jpg",
+      id: 2,
+      src: video2,
+      thumbnail: thumb2,
       type: 'video'
     },
     {
       id: 3,
-      src: "/images/phongkham6.jpg",
+      src: showcase3,
       type: 'image'
     },
     {
       id: 4,
-      src: "/videos/hienthivd3.mp4",
-      thumbnail: "/images/thumbnail-video3.jpg",
+      src: video3,
+      thumbnail: thumb3,
       type: 'video'
     },
     {
       id: 5,
-      src: "/images/phongkham3.jpg",
+      src: showcase4,
       type: 'image'
     },
     {
-      id: 6, 
-      src: "/videos/hienthivd4.mp4",
-      thumbnail: "/images/thumbnail-video4.jpg",
+      id: 6,
+      src: video4,
+      thumbnail: thumb4,
       type: 'video'
     },
     {
       id: 7,
-      src: "/images/phongkham4.jpg",
+      src: showcase5,
       type: 'image'
     },
   ];

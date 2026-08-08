@@ -5,6 +5,7 @@ import App from './App.jsx';
 import AdminApp from './AdminApp.jsx';
 import CustomerLogin from './pages/CustomerLogin.jsx';
 import CustomerRegister from './pages/CustomerRegister.jsx';
+import { SiteContentProvider } from './contexts/SiteContentContext.jsx';
 
 const path = window.location.pathname;
 
@@ -21,6 +22,8 @@ if (path.startsWith('/admin')) {
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Component />
+    <SiteContentProvider>
+      <Component />
+    </SiteContentProvider>
   </StrictMode>
 );

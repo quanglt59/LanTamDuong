@@ -1,4 +1,8 @@
+import { useSiteImage } from '../contexts/SiteContentContext';
+
 export default function Hero() {
+  const heroBg = useSiteImage('hero', '/images/bgr2.jpg');
+
   return (
     <section className="relative pt-24 pb-16 sm:pt-32 sm:pb-20 md:pt-40 md:pb-28 lg:pt-48 lg:pb-36 overflow-hidden">
       {/* Background - Bắc Kạn Landscape (giữ nguyên) */}
@@ -8,7 +12,7 @@ export default function Hero() {
         <div 
           className="absolute inset-0"
           style={{
-            backgroundImage: 'url(/images/bgr2.jpg)',
+            backgroundImage: `url(${heroBg})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',

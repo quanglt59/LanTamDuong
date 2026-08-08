@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import Logo from './Logo';
+import { useSiteImage } from '../contexts/SiteContentContext';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
+  const logoFooter = useSiteImage('logoFooter', '/images/logoltd2.png');
+  const fanpage = useSiteImage('fanpage', '/images/fanpageltd.jpg');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,8 +20,8 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
           {/* Cột 1: Logo + Slogan + Description */}
           <div className="flex flex-col items-start -mt-2 sm:-mt-4">
-            <img 
-              src="/images/logoltd2.png" 
+            <img
+              src={logoFooter}
               alt="Vị Bắc Kạn - Quà Nông Sản Sạch" 
               className="h-10 w-auto sm:h-12 sm:w-auto md:h-14 md:w-auto mb-4 object-contain -ml-2.5 sm:-ml-3.5"
             />
@@ -122,8 +125,8 @@ export default function Footer() {
             
             {/* Facebook Page */}
             <div className="bg-white rounded-lg overflow-hidden shadow-lg">
-              <img 
-                src="/images/fanpageltd.jpg" 
+              <img
+                src={fanpage}
                 alt="Vị Bắc Kạn Facebook Fanpage" 
                 className="w-full h-auto"
                 loading="lazy"

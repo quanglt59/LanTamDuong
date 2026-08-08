@@ -14,44 +14,51 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userRef = doc(db, 'users', user.uid);
-        const userDoc = await getDoc(userRef);
+      try {
+        if (user) {
+          const userRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userRef);
 
-        if (!userDoc.exists()) {
-          // Tự động tạo profile cho admin lần đầu đăng nhập
-          if (user.uid === ADMIN_UID) {
-            const adminProfile = {
-              email: user.email,
-              role: 'admin',
-              isLocked: false,
-              createdAt: new Date().toISOString(),
-            };
-            await setDoc(userRef, adminProfile);
-            setCurrentUser(user);
-            setUserProfile(adminProfile);
+          if (!userDoc.exists()) {
+            // Tự động tạo profile cho admin lần đầu đăng nhập
+            if (user.uid === ADMIN_UID) {
+              const adminProfile = {
+                email: user.email,
+                role: 'admin',
+                isLocked: false,
+                createdAt: new Date().toISOString(),
+              };
+              await setDoc(userRef, adminProfile);
+              setCurrentUser(user);
+              setUserProfile(adminProfile);
+            } else {
+              // Tài khoản không có trong hệ thống
+              await signOut(auth);
+              setCurrentUser(null);
+              setUserProfile(null);
+            }
           } else {
-            // Tài khoản không có trong hệ thống
-            await signOut(auth);
-            setCurrentUser(null);
-            setUserProfile(null);
+            const profile = userDoc.data();
+            if (profile.isLocked) {
+              await signOut(auth);
+              setCurrentUser(null);
+              setUserProfile(null);
+            } else {
+              setCurrentUser(user);
+              setUserProfile(profile);
+            }
           }
         } else {
-          const profile = userDoc.data();
-          if (profile.isLocked) {
-            await signOut(auth);
-            setCurrentUser(null);
-            setUserProfile(null);
-          } else {
-            setCurrentUser(user);
-            setUserProfile(profile);
-          }
+          setCurrentUser(null);
+          setUserProfile(null);
         }
-      } else {
+      } catch (error) {
+        console.error('Lỗi xác thực người dùng:', error);
         setCurrentUser(null);
         setUserProfile(null);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return unsubscribe;

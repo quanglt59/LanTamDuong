@@ -1,4 +1,8 @@
+import { useSiteImage } from '../contexts/SiteContentContext';
+
 export default function Benefits() {
+  const teamImg = useSiteImage('benefitsTeam', '/images/anhTapThe1.jpg');
+
   return (
     <section id="benefits" className="relative pt-12 sm:pt-16 md:pt-20 pb-0 bg-beige-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -184,8 +188,8 @@ export default function Benefits() {
         {/* Ảnh tập thể */}
         <div className="mt-4 flex justify-center">
           <div className="relative w-full max-w-2xl mx-auto overflow-hidden rounded-lg shadow-lg">
-            <img 
-              src="/images/anhTapThe1.jpg" 
+            <img
+              src={teamImg}
               alt="Thuốc Nam gia truyền dòng họ Đào - Lan Tâm Đường"
               className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105"
               loading="lazy"

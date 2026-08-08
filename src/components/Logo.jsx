@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import { useSiteImage } from '../contexts/SiteContentContext';
 
 export default function Logo({ className = "w-32 h-12", variant = "light" }) {
   const [imageError, setImageError] = useState(false);
-  
+  const logoSrc = useSiteImage('logoHeader', '/images/logoltd1.png');
+
   // Nếu có logo mới (file SVG), sử dụng nó
   if (!imageError) {
     return (
       <img
-        src="/images/logoltd1.png"
+        src={logoSrc}
         alt="Vị Bắc Kạn - Quà Nông Sản Sạch"
         className={`${className} object-contain`}
         onError={() => setImageError(true)}

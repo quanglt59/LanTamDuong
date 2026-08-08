@@ -7,6 +7,7 @@ import UserManagement from './components/admin/UserManagement';
 import CustomerManagement from './components/admin/CustomerManagement';
 import ChatHistory from './components/admin/ChatHistory';
 import StaffMessages from './components/admin/StaffMessages';
+import ContentManagement from './components/admin/ContentManagement';
 
 function AdminContent() {
   const { currentUser, loading } = useAuth();
@@ -36,6 +37,7 @@ function AdminContent() {
       {page === 'chat' && <ChatHistory />}
       {page === 'messages' && <StaffMessages />}
       {page === 'users' && <UserManagement />}
+      {page === 'content' && <ContentManagement />}
     </AdminLayout>
   );
 }
